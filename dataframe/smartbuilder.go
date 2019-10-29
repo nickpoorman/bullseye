@@ -47,6 +47,7 @@ func (sb *SmartBuilder) Append(fieldIndex int, v interface{}) {
 	appendFunc(field, v)
 }
 
+// TODO(nickpoorman): Add the rest of the data types.
 func initFieldAppender(field *arrow.Field) AppenderFunc {
 	switch field.Type.(type) {
 	case *arrow.BooleanType:
@@ -187,7 +188,7 @@ func initFieldAppender(field *arrow.Field) AppenderFunc {
 				builder.AppendNull()
 			} else {
 				sub := builder.ValueBuilder()
-				fmt.Printf("list type value: [%v]\n", v)
+				fmt.Printf("list type value: %v\n", v)
 				v := reflectValueOfNonPointer(v).Elem()
 				sub.Reserve(v.Len())
 				builder.Append(true)
@@ -234,8 +235,9 @@ func initFieldAppender(field *arrow.Field) AppenderFunc {
 }
 
 // TODO(nickpoorman): Write test that will test all the data types.
+// TODO(nickpoorman): Add the rest of the data types.
 func appendValue(bldr array.Builder, v interface{}) {
-	fmt.Printf("appendValue: [%v]\n", v)
+	fmt.Printf("appendValue: |%v| - %T\n", v, bldr)
 	switch b := bldr.(type) {
 	case *array.BooleanBuilder:
 		b.Append(v.(bool))
@@ -281,6 +283,7 @@ func appendValue(bldr array.Builder, v interface{}) {
 		}
 
 	case *array.StructBuilder:
+		b.Append(true)
 		v := reflect.ValueOf(v)
 		for i := 0; i < b.NumField(); i++ {
 			f := b.FieldBuilder(i)

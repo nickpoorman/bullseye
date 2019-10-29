@@ -1,0 +1,45 @@
+package testdata
+
+import (
+	"github.com/apache/arrow/go/arrow"
+	"github.com/apache/arrow/go/arrow/decimal128"
+	"github.com/apache/arrow/go/arrow/float16"
+)
+
+type SmartBuilderTestCase struct {
+	Values  []interface{}
+	Dtype arrow.DataType
+	Want  string
+}
+
+// TODO: Add boolean
+func GenerateSmartBuilderTestCases() []SmartBuilderTestCase {
+	return []SmartBuilderTestCase{
+		{{- range $root := .In}}
+		{{- range $testType := $root.TestTypes}}
+		{
+			Values:  {{or $testType.Name $root.Name}}Gen(),
+			Dtype: {{$testType.DataType}},
+			Want:  `rec[0]["col-{{$root.name}}"]: [0 1 2 3 4 5 6 7 8 (null)]`,
+		},
+		{{- end}}
+		{{- end}}
+	}
+}
+
+{{range $root := .In}}
+{{range $testType := $root.TestTypes}}
+func {{or $testType.Name $root.Name}}Gen() []interface{} {
+	vals := make([]interface{}, 9)
+	for i := range vals {
+		{{- if $testType.Builder }}
+			vals[i] = {{or $testType.Builder}}
+		{{- else }}
+			vals[i] = {{or $root.name}}(i)
+		{{- end }}
+	}
+	return vals
+}
+
+{{end}}
+{{end}}

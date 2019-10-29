@@ -4,21 +4,36 @@
     "name": "int64",
     "Type": "int64",
     "Default": "0",
-    "Size": "8"
+    "Size": "8",
+    "TestTypes": [
+      {
+        "DataType": "arrow.PrimitiveTypes.Int64"
+      }
+    ]
   },
   {
     "Name": "Uint64",
     "name": "uint64",
     "Type": "uint64",
     "Default": "0",
-    "Size": "8"
+    "Size": "8",
+    "TestTypes": [
+      {
+        "DataType": "arrow.PrimitiveTypes.Uint64"
+      }
+    ]
   },
   {
     "Name": "Float64",
     "name": "float64",
     "Type": "float64",
     "Default": "0",
-    "Size": "8"
+    "Size": "8",
+    "TestTypes": [
+      {
+        "DataType": "arrow.PrimitiveTypes.Float64"
+      }
+    ]
   },
   {
     "Name": "Int32",
@@ -28,49 +43,84 @@
     "Size": "4",
     "Opt": {
       "BufferBuilder": true
-    }
+    },
+    "TestTypes": [
+      {
+        "DataType": "arrow.PrimitiveTypes.Int32"
+      }
+    ]
   },
   {
     "Name": "Uint32",
     "name": "uint32",
     "Type": "uint32",
     "Default": "0",
-    "Size": "4"
+    "Size": "4",
+    "TestTypes": [
+      {
+        "DataType": "arrow.PrimitiveTypes.Uint32"
+      }
+    ]
   },
   {
     "Name": "Float32",
     "name": "float32",
     "Type": "float32",
     "Default": "0",
-    "Size": "4"
+    "Size": "4",
+    "TestTypes": [
+      {
+        "DataType": "arrow.PrimitiveTypes.Float32"
+      }
+    ]
   },
   {
     "Name": "Int16",
     "name": "int16",
     "Type": "int16",
     "Default": "0",
-    "Size": "2"
+    "Size": "2",
+    "TestTypes": [
+      {
+        "DataType": "arrow.PrimitiveTypes.Int16"
+      }
+    ]
   },
   {
     "Name": "Uint16",
     "name": "uint16",
     "Type": "uint16",
     "Default": "0",
-    "Size": "2"
+    "Size": "2",
+    "TestTypes": [
+      {
+        "DataType": "arrow.PrimitiveTypes.Uint16"
+      }
+    ]
   },
   {
     "Name": "Int8",
     "name": "int8",
     "Type": "int8",
     "Default": "0",
-    "Size": "1"
+    "Size": "1",
+    "TestTypes": [
+      {
+        "DataType": "arrow.PrimitiveTypes.Int8"
+      }
+    ]
   },
   {
     "Name": "Uint8",
     "name": "uint8",
     "Type": "uint8",
     "Default": "0",
-    "Size": "1"
+    "Size": "1",
+    "TestTypes": [
+      {
+        "DataType": "arrow.PrimitiveTypes.Uint8"
+      }
+    ]
   },
   {
     "Name": "Timestamp",
@@ -82,7 +132,29 @@
     "Size": "8",
     "Opt": {
       "Parametric": true
-    }
+    },
+    "TestTypes": [
+      {
+        "DataType": "arrow.FixedWidthTypes.Timestamp_s",
+        "Name": "Timestamp_s",
+        "Builder": "arrow.Timestamp(int64(i))"
+      },
+      {
+        "DataType": "arrow.FixedWidthTypes.Timestamp_ms",
+        "Name": "Timestamp_ms",
+        "Builder": "arrow.Timestamp(int64(i))"
+      },
+      {
+        "DataType": "arrow.FixedWidthTypes.Timestamp_us",
+        "Name": "Timestamp_us",
+        "Builder": "arrow.Timestamp(int64(i))"
+      },
+      {
+        "DataType": "arrow.FixedWidthTypes.Timestamp_ns",
+        "Name": "Timestamp_ns",
+        "Builder": "arrow.Timestamp(int64(i))"
+      }
+    ]
   },
   {
     "Name": "Time32",
@@ -94,7 +166,19 @@
     "Size": "4",
     "Opt": {
       "Parametric": true
-    }
+    },
+    "TestTypes": [
+      {
+        "DataType": "arrow.FixedWidthTypes.Time32s",
+        "Name": "Time32s",
+        "Builder": "arrow.Time32(int32(i))"
+      },
+      {
+        "DataType": "arrow.FixedWidthTypes.Time32ms",
+        "Name": "Time32ms",
+        "Builder": "arrow.Time32(int32(i))"
+      }
+    ]
   },
   {
     "Name": "Time64",
@@ -106,7 +190,19 @@
     "Size": "8",
     "Opt": {
       "Parametric": true
-    }
+    },
+    "TestTypes": [
+      {
+        "DataType": "arrow.FixedWidthTypes.Time64us",
+        "Name": "Time64us",
+        "Builder": "arrow.Time64(int64(i))"
+      },
+      {
+        "DataType": "arrow.FixedWidthTypes.Time64ns",
+        "Name": "Time64ns",
+        "Builder": "arrow.Time64(int64(i))"
+      }
+    ]
   },
   {
     "Name": "Date32",
@@ -115,7 +211,13 @@
     "QualifiedType": "arrow.Date32",
     "InternalType": "int32",
     "Default": "0",
-    "Size": "4"
+    "Size": "4",
+    "TestTypes": [
+      {
+        "DataType": "arrow.FixedWidthTypes.Date32",
+        "Builder": "arrow.Date32(int32(i))"
+      }
+    ]
   },
   {
     "Name": "Date64",
@@ -124,7 +226,13 @@
     "QualifiedType": "arrow.Date64",
     "InternalType": "int64",
     "Default": "0",
-    "Size": "8"
+    "Size": "8",
+    "TestTypes": [
+      {
+        "DataType": "arrow.FixedWidthTypes.Date64",
+        "Builder": "arrow.Date64(int64(i))"
+      }
+    ]
   },
   {
     "Name": "Duration",
@@ -136,7 +244,29 @@
     "Size": "8",
     "Opt": {
       "Parametric": true
-    }
+    },
+    "TestTypes": [
+      {
+        "DataType": "arrow.FixedWidthTypes.Duration_s",
+        "Name": "Duration_s",
+        "Builder": "arrow.Duration(int64(i))"
+      },
+      {
+        "DataType": "arrow.FixedWidthTypes.Duration_ms",
+        "Name": "Duration_ms",
+        "Builder": "arrow.Duration(int64(i))"
+      },
+      {
+        "DataType": "arrow.FixedWidthTypes.Duration_us",
+        "Name": "Duration_us",
+        "Builder": "arrow.Duration(int64(i))"
+      },
+      {
+        "DataType": "arrow.FixedWidthTypes.Duration_ns",
+        "Name": "Duration_ns",
+        "Builder": "arrow.Duration(int64(i))"
+      }
+    ]
   },
   {
     "Name": "MonthInterval",
@@ -145,7 +275,13 @@
     "QualifiedType": "arrow.MonthInterval",
     "InternalType": "int32",
     "Default": "0",
-    "Size": "4"
+    "Size": "4",
+    "TestTypes": [
+      {
+        "DataType": "arrow.FixedWidthTypes.MonthInterval",
+        "Builder": "arrow.MonthInterval(i)"
+      }
+    ]
   },
   {
     "Name": "Float16",
@@ -162,7 +298,13 @@
       "LessEq": "left.Uint16() <= right.Uint16()",
       "Greater": "left.Uint16() > right.Uint16()",
       "GreaterEq": "left.Uint16() >= right.Uint16()"
-    }
+    },
+    "TestTypes": [
+      {
+        "DataType": "arrow.FixedWidthTypes.Float16",
+        "Builder": "float16.New(float32(i))"
+      }
+    ]
   },
   {
     "Name": "Decimal128",
@@ -180,7 +322,13 @@
       "LessEq": "!(right.HighBits() < left.HighBits() || (right.HighBits() == left.HighBits() && right.LowBits() < left.LowBits()))",
       "Greater": "right.HighBits() < left.HighBits() || (right.HighBits() == left.HighBits() && right.LowBits() < left.LowBits())",
       "GreaterEq": "!(left.HighBits() < right.HighBits() || (left.HighBits() == right.HighBits() && left.LowBits() < right.LowBits()))"
-    }
+    },
+    "TestTypes": [
+      {
+        "DataType": "&arrow.Decimal128Type{Precision: 1, Scale: 10}",
+        "Builder": "decimal128.New(int64(i), uint64(i))"
+      }
+    ]
   },
   {
     "Name": "DayTimeInterval",
@@ -196,6 +344,12 @@
       "LessEq": "left.Days <= right.Days && left.Milliseconds <= right.Milliseconds",
       "Greater": "left.Days > right.Days && left.Milliseconds > right.Milliseconds",
       "GreaterEq": "left.Days >= right.Days && left.Milliseconds >= right.Milliseconds"
-    }
+    },
+    "TestTypes": [
+      {
+        "DataType": "arrow.FixedWidthTypes.DayTimeInterval",
+        "Builder": "arrow.DayTimeInterval{Days: int32(i), Milliseconds: int32(i * 2)}"
+      }
+    ]
   }
 ]

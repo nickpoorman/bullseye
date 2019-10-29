@@ -1,12 +1,17 @@
 package dataframe
 
 import (
+	"bytes"
 	"fmt"
+	"reflect"
+	"strings"
 	"testing"
 
 	"github.com/apache/arrow/go/arrow"
 	"github.com/apache/arrow/go/arrow/array"
 	"github.com/apache/arrow/go/arrow/memory"
+	"github.com/go-bullseye/bullseye/dataframe/metadata"
+	"github.com/go-bullseye/bullseye/internal/testdata"
 )
 
 func TestNewSmartBuilder(t *testing.T) {
@@ -374,5 +379,134 @@ func TestNewSmartBuilderString(t *testing.T) {
 
 	if got != want {
 		t.Fatalf("\ngot=\n%v\nwant=\n%v", got, want)
+	}
+}
+
+type keyValue struct {
+	Key   interface{}
+	Value interface{}
+}
+
+// convert {"foo": "bar", "ping": 0} to [{"Key": "foo", "Value": "bar"}, {"Key": "ping", "Value": 0}]
+func convertMapToKeyValueTuples(m reflect.Value) reflect.Value {
+	length := m.Len()
+	list := make([]keyValue, 0, length)
+	iter := m.MapRange()
+	for iter.Next() {
+		k := iter.Key()   // foo
+		v := iter.Value() // bar
+		list = append(list, keyValue{Key: k.Interface(), Value: v.Interface()})
+	}
+	return reflect.ValueOf(list)
+}
+
+func addMapAsListOfStructsUsingSmartBuilder(fi int, t *testing.T, recordBuilder *array.RecordBuilder, valids []bool) {
+	t.Helper()
+
+	data := []map[string]float64{
+		{"field_a": float64(0), "field_b": float64(0), "field_c": float64(0)},
+		nil,
+		{"field_a": float64(2), "field_b": float64(2), "field_c": float64(2)},
+		{"field_a": float64(3), "field_b": float64(3), "field_c": float64(3)},
+		{"field_a": float64(4), "field_b": float64(4), "field_c": float64(4)},
+	}
+
+	smartBuilder := NewSmartBuilder(recordBuilder, recordBuilder.Schema())
+	for i, d := range data {
+		if d == nil || !valids[i] {
+			smartBuilder.Append(fi, nil)
+			continue
+		}
+		o := reflect.ValueOf(d)
+		v := convertMapToKeyValueTuples(o)
+		kv := v.Interface()
+		smartBuilder.Append(fi, kv)
+	}
+}
+
+func TestSmartBuilderMaps(t *testing.T) {
+	pool := memory.NewCheckedAllocator(memory.NewGoAllocator())
+	defer pool.AssertSize(t, 0)
+
+	schema := arrow.NewSchema(
+		[]arrow.Field{
+			{
+				Name: "col15-los",
+				Type: arrow.ListOf(arrow.StructOf([]arrow.Field{
+					{Name: "field_a", Type: arrow.BinaryTypes.String},
+					{Name: "field_b", Type: arrow.BinaryTypes.String},
+					{Name: "field_c", Type: arrow.PrimitiveTypes.Float64},
+				}...)),
+			},
+			{
+				Name: "col16-los-sb",
+				Type: arrow.ListOf(arrow.StructOf([]arrow.Field{
+					{Name: "Key", Type: arrow.BinaryTypes.String},
+					{Name: "Value", Type: arrow.PrimitiveTypes.Float64},
+				}...)),
+				// map[string]float64
+				// Add some metadata to let consumers of this know that we really want a map logical type.
+				Metadata: metadata.AppendOriginalMapTypeMetadata(arrow.Metadata{}),
+			},
+		},
+		nil,
+	)
+
+	recordBuilder := array.NewRecordBuilder(pool, schema)
+	defer recordBuilder.Release()
+
+	valids := []bool{true, true, true, false, true}
+
+	// list of struct
+	addListOfStructs(0, t, recordBuilder, valids)
+
+	// list of struct using smart builder
+	addMapAsListOfStructsUsingSmartBuilder(1, t, recordBuilder, valids)
+
+	rec1 := recordBuilder.NewRecord()
+	defer rec1.Release()
+
+	df, err := NewDataFrameFromRecord(pool, rec1)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer df.Release()
+
+	var b bytes.Buffer
+	err = df.ToJSON(&b)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	toJSONSmartBuilderResult := `{"col15-los":[{"field_a":"r0:s0:e0","field_b":"r0:s0:e0","field_c":0},{"field_a":"r0:s1:e1","field_b":"r0:s1:e1","field_c":1}],"col16-los-sb":{"field_a":0,"field_b":0,"field_c":0}}
+{"col15-los":[{"field_a":"r1:s0:e2","field_b":"r1:s0:e2","field_c":0},{"field_a":"r1:s1:e3","field_b":"r1:s1:e3","field_c":1}],"col16-los-sb":null}
+{"col15-los":[{"field_a":"r2:s0:e4","field_b":"r2:s0:e4","field_c":0},{"field_a":"r2:s1:e5","field_b":"r2:s1:e5","field_c":1}],"col16-los-sb":{"field_a":2,"field_b":2,"field_c":2}}
+{"col15-los":[{"field_a":"r3:s0:e6","field_b":"r3:s0:e6","field_c":0},{"field_a":"r3:s1:e7","field_b":"r3:s1:e7","field_c":1}],"col16-los-sb":null}
+{"col15-los":[{"field_a":"r4:s0:e8","field_b":"r4:s0:e8","field_c":0},{"field_a":"r4:s1:e9","field_b":"r4:s1:e9","field_c":1}],"col16-los-sb":{"field_a":4,"field_b":4,"field_c":4}}
+`
+
+	if got, want := b.String(), toJSONSmartBuilderResult; got != want {
+		t.Fatalf("\ngot=\n%s\nwant=\n%s\n", got, want)
+	}
+}
+
+func TestNewSmartBuilderTypes(t *testing.T) {
+	for _, testCase := range testdata.GenerateSmartBuilderTestCases() {
+		func() {
+			pool := memory.NewCheckedAllocator(memory.NewGoAllocator())
+			defer pool.AssertSize(t, 0)
+
+			df, err := buildDf(pool, testCase.Dtype, testCase.Values)
+			if err != nil {
+				t.Fatal(err)
+			}
+			defer df.Release()
+
+			got := df.Display(-1)
+
+			if strings.TrimSpace(got) != testCase.Want {
+				t.Fatalf("\ngot=\n%v\nwant=\n%v", got, testCase.Want)
+			}
+		}()
 	}
 }
