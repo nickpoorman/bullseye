@@ -65,6 +65,7 @@ func (sb *SmartBuilder) Append(fieldIndex int, v interface{}) {
 }
 
 // TODO(nickpoorman): Add the rest of the data types.
+// TODO(nickpoorman): Add boolean, null, string, etc. to types.tmpldata.
 func initFieldAppender(field *arrow.Field) AppenderFunc {
 	switch field.Type.(type) {
 	case *arrow.BooleanType:
