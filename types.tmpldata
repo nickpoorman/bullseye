@@ -308,7 +308,7 @@
   },
   {
     "Name": "Decimal128",
-    "name": "decimal128",
+    "name": "decimal",
     "Type": "Decimal128Type",
     "QualifiedType": "decimal128.Num",
     "InternalType": "decimal128.Num",

@@ -28,7 +28,7 @@ type SmartBuilderTestCase struct {
 	Want   string
 }
 
-// TODO: Add boolean
+// TODO: Add boolean, null
 func GenerateSmartBuilderTestCases() []SmartBuilderTestCase {
 	return []SmartBuilderTestCase{
 		{
@@ -164,7 +164,7 @@ func GenerateSmartBuilderTestCases() []SmartBuilderTestCase {
 		{
 			Values: Decimal128Gen(),
 			Dtype:  &arrow.Decimal128Type{Precision: 1, Scale: 10},
-			Want:   `rec[0]["col-decimal128"]: [{0 0} {1 1} {2 2} {3 3} {4 4} {5 5} {6 6} {7 7} {8 8} (null)]`,
+			Want:   `rec[0]["col-decimal"]: [{0 0} {1 1} {2 2} {3 3} {4 4} {5 5} {6 6} {7 7} {8 8} (null)]`,
 		},
 		{
 			Values: DayTimeIntervalGen(),
