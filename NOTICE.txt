@@ -1,6 +1,10 @@
 Bullseye
 Copyright 2019 Nick Poorman
 
+This product includes software developed by Nick Poorman (nickpoorman@gmail.com).
+
+---------------------------------------------------------------------------------------
+
 This product includes software from the strcase project (MIT).
 * Copyright (c) 2015 Ian Coleman
 * Copyright (c) 2018 Ma_124, <github.com/Ma124>
