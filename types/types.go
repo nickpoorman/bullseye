@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// +build !assert
+package types
 
-package debug
-
-// Assert will panic with msg if cond is false.
-func Assert(cond bool, msg interface{}) {}
+type Signed128BitInteger struct {
+	Lo uint64 `json:"lo"` // low bits
+	Hi int64  `json:"hi"` // high bits
+}

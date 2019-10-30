@@ -1,3 +1,17 @@
+// Copyright 2019 Nick Poorman
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 package dataframe
 
 import (
@@ -7,6 +21,9 @@ import (
 
 	"github.com/apache/arrow/go/arrow"
 	"github.com/apache/arrow/go/arrow/array"
+	"github.com/apache/arrow/go/arrow/decimal128"
+	"github.com/apache/arrow/go/arrow/float16"
+	"github.com/go-bullseye/bullseye/types"
 	"github.com/pkg/errors"
 )
 
@@ -170,13 +187,178 @@ func initFieldAppender(field *arrow.Field) AppenderFunc {
 				builder.Append(vT)
 			}
 		}
+
+	case *arrow.TimestampType:
+		return func(field array.Builder, v interface{}) {
+			builder := field.(*array.TimestampBuilder)
+			if v == nil {
+				builder.AppendNull()
+			} else {
+				var vT arrow.Timestamp
+				switch t := v.(type) {
+				case int64:
+					vT = arrow.Timestamp(t)
+				case arrow.Timestamp:
+					vT = t
+				default:
+					vT = arrow.Timestamp(v.(int64))
+				}
+				builder.Append(vT)
+			}
+		}
+
+	case *arrow.Time32Type:
+		return func(field array.Builder, v interface{}) {
+			builder := field.(*array.Time32Builder)
+			if v == nil {
+				builder.AppendNull()
+			} else {
+				var vT arrow.Time32
+				switch t := v.(type) {
+				case int32:
+					vT = arrow.Time32(t)
+				case arrow.Time32:
+					vT = t
+				default:
+					vT = arrow.Time32(v.(int32))
+				}
+				builder.Append(vT)
+			}
+		}
+
+	case *arrow.Time64Type:
+		return func(field array.Builder, v interface{}) {
+			builder := field.(*array.Time64Builder)
+			if v == nil {
+				builder.AppendNull()
+			} else {
+				var vT arrow.Time64
+				switch t := v.(type) {
+				case int64:
+					vT = arrow.Time64(t)
+				case arrow.Time64:
+					vT = t
+				default:
+					vT = arrow.Time64(v.(int64))
+				}
+				builder.Append(vT)
+			}
+		}
+
 	case *arrow.Date32Type:
 		return func(field array.Builder, v interface{}) {
 			builder := field.(*array.Date32Builder)
 			if v == nil {
 				builder.AppendNull()
 			} else {
-				vT := arrow.Date32(v.(int32))
+				var vT arrow.Date32
+				switch t := v.(type) {
+				case int32:
+					vT = arrow.Date32(t)
+				case arrow.Date32:
+					vT = t
+				default:
+					vT = arrow.Date32(v.(int32))
+				}
+				builder.Append(vT)
+			}
+		}
+
+	case *arrow.Date64Type:
+		return func(field array.Builder, v interface{}) {
+			builder := field.(*array.Date64Builder)
+			if v == nil {
+				builder.AppendNull()
+			} else {
+				var vT arrow.Date64
+				switch t := v.(type) {
+				case int64:
+					vT = arrow.Date64(t)
+				case arrow.Date64:
+					vT = t
+				default:
+					vT = arrow.Date64(v.(int64))
+				}
+				builder.Append(vT)
+			}
+		}
+
+	case *arrow.DurationType:
+		return func(field array.Builder, v interface{}) {
+			builder := field.(*array.DurationBuilder)
+			if v == nil {
+				builder.AppendNull()
+			} else {
+				var vT arrow.Duration
+				switch t := v.(type) {
+				case int64:
+					vT = arrow.Duration(t)
+				case arrow.Duration:
+					vT = t
+				default:
+					vT = arrow.Duration(v.(int64))
+				}
+				builder.Append(vT)
+			}
+		}
+
+	case *arrow.MonthIntervalType:
+		return func(field array.Builder, v interface{}) {
+			builder := field.(*array.MonthIntervalBuilder)
+			if v == nil {
+				builder.AppendNull()
+			} else {
+				var vT arrow.MonthInterval
+				switch t := v.(type) {
+				case int32:
+					vT = arrow.MonthInterval(t)
+				case arrow.MonthInterval:
+					vT = t
+				default:
+					vT = arrow.MonthInterval(v.(int32))
+				}
+				builder.Append(vT)
+			}
+		}
+
+	case *arrow.Float16Type:
+		return func(field array.Builder, v interface{}) {
+			builder := field.(*array.Float16Builder)
+			if v == nil {
+				builder.AppendNull()
+			} else {
+				var vT float16.Num
+				switch t := v.(type) {
+				case float32:
+					vT = float16.New(t)
+				case float16.Num:
+					vT = t
+				default:
+					vT = float16.New(v.(float32))
+				}
+				builder.Append(vT)
+			}
+		}
+
+	case *arrow.Decimal128Type:
+		return func(field array.Builder, v interface{}) {
+			builder := field.(*array.Decimal128Builder)
+			if v == nil {
+				builder.AppendNull()
+			} else {
+				var vT decimal128.Num
+				switch t := v.(type) {
+				case uint64:
+					vT = decimal128.FromU64(t)
+				case int64:
+					vT = decimal128.FromI64(t)
+				case decimal128.Num:
+					vT = t
+				case types.Signed128BitInteger:
+					vT = decimal128.New(t.Hi, t.Lo)
+				default:
+					vT = v.(decimal128.Num)
+				}
 				builder.Append(vT)
 			}
 		}

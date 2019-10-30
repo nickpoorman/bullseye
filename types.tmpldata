@@ -270,7 +270,7 @@
   },
   {
     "Name": "MonthInterval",
-    "name": "monthInterval",
+    "name": "month_interval",
     "Type": "MonthInterval",
     "QualifiedType": "arrow.MonthInterval",
     "InternalType": "int32",
@@ -326,7 +326,8 @@
     "TestTypes": [
       {
         "DataType": "&arrow.Decimal128Type{Precision: 1, Scale: 10}",
-        "Builder": "decimal128.New(int64(i), uint64(i))"
+        "Builder": "decimal128.New(int64(i), uint64(i))",
+        "WantValues": "[{0 0} {1 1} {2 2} {3 3} {4 4} {5 5} {6 6} {7 7} {8 8} (null)]"
       }
     ]
   },
