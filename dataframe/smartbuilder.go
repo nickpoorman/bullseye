@@ -363,6 +363,17 @@ func initFieldAppender(field *arrow.Field) AppenderFunc {
 			}
 		}
 
+	case *arrow.DayTimeIntervalType:
+		return func(field array.Builder, v interface{}) {
+			builder := field.(*array.DayTimeIntervalBuilder)
+			if v == nil {
+				builder.AppendNull()
+			} else {
+				vT := v.(arrow.DayTimeInterval)
+				builder.Append(vT)
+			}
+		}
+
 	case *arrow.ListType:
 		return func(b array.Builder, v interface{}) {
 			builder := b.(*array.ListBuilder)

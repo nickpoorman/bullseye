@@ -169,7 +169,7 @@ func GenerateSmartBuilderTestCases() []SmartBuilderTestCase {
 		{
 			Values: DayTimeIntervalGen(),
 			Dtype:  arrow.FixedWidthTypes.DayTimeInterval,
-			Want:   `rec[0]["col-dayTimeInterval"]: [0 1 2 3 4 5 6 7 8 (null)]`,
+			Want:   `rec[0]["col-day_time_interval"]: [{0 0} {1 2} {2 4} {3 6} {4 8} {5 10} {6 12} {7 14} {8 16} (null)]`,
 		},
 	}
 }

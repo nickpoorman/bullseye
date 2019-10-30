@@ -333,7 +333,7 @@
   },
   {
     "Name": "DayTimeInterval",
-    "name": "dayTimeInterval",
+    "name": "day_time_interval",
     "Type": "DayTimeInterval",
     "QualifiedType": "arrow.DayTimeInterval",
     "InternalType": "arrow.DayTimeInterval",
@@ -349,7 +349,8 @@
     "TestTypes": [
       {
         "DataType": "arrow.FixedWidthTypes.DayTimeInterval",
-        "Builder": "arrow.DayTimeInterval{Days: int32(i), Milliseconds: int32(i * 2)}"
+        "Builder": "arrow.DayTimeInterval{Days: int32(i), Milliseconds: int32(i * 2)}",
+        "WantValues": "[{0 0} {1 2} {2 4} {3 6} {4 8} {5 10} {6 12} {7 14} {8 16} (null)]"
       }
     ]
   }
