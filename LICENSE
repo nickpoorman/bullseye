@@ -192,7 +192,6 @@
 --------------------------------------------------------------------------------
 
 This project includes code from Apache Arrow.
-
 https://github.com/apache/arrow
 
 _tools/tmpl/main.go is adapted from

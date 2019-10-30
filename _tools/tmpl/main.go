@@ -13,6 +13,10 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+//
+// This code had been adapted from
+// https://github.com/apache/arrow/blob/master/go/arrow/_tools/tmpl/main.go
+// by Nick Poorman (2019).
 
 package main
 
@@ -28,6 +32,8 @@ import (
 	"path/filepath"
 	"strings"
 	"text/template"
+
+	"github.com/go-bullseye/bullseye/_tools/lib/strcase"
 )
 
 const Ext = ".tmpl"
@@ -148,6 +154,7 @@ func fileMode(path string) os.FileMode {
 var funcs = template.FuncMap{
 	"lower": strings.ToLower,
 	"upper": strings.ToUpper,
+	"camel": strcase.ToLowerCamel,
 }
 
 func process(data interface{}, specs []pathSpec) {

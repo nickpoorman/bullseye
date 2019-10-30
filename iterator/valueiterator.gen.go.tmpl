@@ -136,7 +136,7 @@ func (vr *{{.Name}}ValueIterator) ValueAsJSON() (interface{}, error) {
 	if vr.ref.IsNull(vr.index) {
 		return nil, nil
 	}
-	return {{.name}}AsJSON(vr.values[vr.index])
+	return {{camel .name}}AsJSON(vr.values[vr.index])
 }
 
 func (vr *{{.Name}}ValueIterator) DataType() arrow.DataType {

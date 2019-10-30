@@ -2276,7 +2276,7 @@ func (vr *MonthIntervalValueIterator) ValueAsJSON() (interface{}, error) {
 	if vr.ref.IsNull(vr.index) {
 		return nil, nil
 	}
-	return month_intervalAsJSON(vr.values[vr.index])
+	return monthIntervalAsJSON(vr.values[vr.index])
 }
 
 func (vr *MonthIntervalValueIterator) DataType() arrow.DataType {

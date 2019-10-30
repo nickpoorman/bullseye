@@ -49,7 +49,9 @@ go-templates: bin/tmpl $(GO_COMPILED_TEMPLATES)
 fmt: $(SOURCES_NO_VENDOR)
 	goimports -w $^
 
-bin/tmpl: ./vendor/github.com/apache/arrow/go/arrow/_tools/tmpl/main.go
+# bin/tmpl: ./vendor/github.com/apache/arrow/go/arrow/_tools/tmpl/main.go
+# 	$(GO_BUILD) -o $@ "./$(<D)"
+bin/tmpl: ./_tools/tmpl/main.go
 	$(GO_BUILD) -o $@ "./$(<D)"
 
 vendor:

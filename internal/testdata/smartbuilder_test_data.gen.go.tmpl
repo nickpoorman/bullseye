@@ -49,7 +49,7 @@ func {{or $testType.Name $root.Name}}Gen() []interface{} {
 		{{- if $testType.Builder }}
 			vals[i] = {{or $testType.Builder}}
 		{{- else }}
-			vals[i] = {{or $root.name}}(i)
+			vals[i] = {{or $root.QualifiedType $root.Type}}(i)
 		{{- end }}
 	}
 	return vals
