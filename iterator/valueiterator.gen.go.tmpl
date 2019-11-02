@@ -52,8 +52,6 @@ func NewValueIterator(column *array.Column) ValueIterator {
 	case *arrow.{{.Name}}Type:
 		return New{{.Name}}ValueIterator(column)
 	{{end}}
-	case *arrow.BooleanType:
-		return NewBooleanValueIterator(column)
 
 	case *arrow.StringType:
 		return NewStringValueIterator(column)
@@ -80,6 +78,7 @@ func NewInterfaceValueIterator(field arrow.Field, iface array.Interface) ValueIt
 }
 
 {{range .In}}
+{{if not (contains .ExcludeGenerate "valueiterator") }}
 // {{.Name}}ValueIterator is an iterator for reading an Arrow Column value by value.
 type {{.Name}}ValueIterator struct {
 	refCount    int64
@@ -210,5 +209,5 @@ func (vr *{{.Name}}ValueIterator) Release() {
 	}
 }
 
-
+{{end}}
 {{end}}

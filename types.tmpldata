@@ -4,7 +4,7 @@
     "name": "int64",
     "Type": "int64",
     "Default": "0",
-    "Size": "8",
+    "BitWidth": "64",
     "TestTypes": [
       {
         "DataType": "arrow.PrimitiveTypes.Int64"
@@ -16,7 +16,7 @@
     "name": "uint64",
     "Type": "uint64",
     "Default": "0",
-    "Size": "8",
+    "BitWidth": "64",
     "TestTypes": [
       {
         "DataType": "arrow.PrimitiveTypes.Uint64"
@@ -28,7 +28,7 @@
     "name": "float64",
     "Type": "float64",
     "Default": "0",
-    "Size": "8",
+    "BitWidth": "64",
     "TestTypes": [
       {
         "DataType": "arrow.PrimitiveTypes.Float64"
@@ -40,7 +40,7 @@
     "name": "int32",
     "Type": "int32",
     "Default": "0",
-    "Size": "4",
+    "BitWidth": "32",
     "Opt": {
       "BufferBuilder": true
     },
@@ -55,7 +55,7 @@
     "name": "uint32",
     "Type": "uint32",
     "Default": "0",
-    "Size": "4",
+    "BitWidth": "32",
     "TestTypes": [
       {
         "DataType": "arrow.PrimitiveTypes.Uint32"
@@ -67,7 +67,7 @@
     "name": "float32",
     "Type": "float32",
     "Default": "0",
-    "Size": "4",
+    "BitWidth": "32",
     "TestTypes": [
       {
         "DataType": "arrow.PrimitiveTypes.Float32"
@@ -79,7 +79,7 @@
     "name": "int16",
     "Type": "int16",
     "Default": "0",
-    "Size": "2",
+    "BitWidth": "16",
     "TestTypes": [
       {
         "DataType": "arrow.PrimitiveTypes.Int16"
@@ -91,7 +91,7 @@
     "name": "uint16",
     "Type": "uint16",
     "Default": "0",
-    "Size": "2",
+    "BitWidth": "16",
     "TestTypes": [
       {
         "DataType": "arrow.PrimitiveTypes.Uint16"
@@ -103,7 +103,7 @@
     "name": "int8",
     "Type": "int8",
     "Default": "0",
-    "Size": "1",
+    "BitWidth": "8",
     "TestTypes": [
       {
         "DataType": "arrow.PrimitiveTypes.Int8"
@@ -115,7 +115,7 @@
     "name": "uint8",
     "Type": "uint8",
     "Default": "0",
-    "Size": "1",
+    "BitWidth": "8",
     "TestTypes": [
       {
         "DataType": "arrow.PrimitiveTypes.Uint8"
@@ -129,7 +129,7 @@
     "QualifiedType": "arrow.Timestamp",
     "InternalType": "int64",
     "Default": "0",
-    "Size": "8",
+    "BitWidth": "64",
     "Opt": {
       "Parametric": true
     },
@@ -163,7 +163,7 @@
     "QualifiedType": "arrow.Time32",
     "InternalType": "int32",
     "Default": "0",
-    "Size": "4",
+    "BitWidth": "32",
     "Opt": {
       "Parametric": true
     },
@@ -187,7 +187,7 @@
     "QualifiedType": "arrow.Time64",
     "InternalType": "int64",
     "Default": "0",
-    "Size": "8",
+    "BitWidth": "64",
     "Opt": {
       "Parametric": true
     },
@@ -211,7 +211,7 @@
     "QualifiedType": "arrow.Date32",
     "InternalType": "int32",
     "Default": "0",
-    "Size": "4",
+    "BitWidth": "32",
     "TestTypes": [
       {
         "DataType": "arrow.FixedWidthTypes.Date32",
@@ -226,7 +226,7 @@
     "QualifiedType": "arrow.Date64",
     "InternalType": "int64",
     "Default": "0",
-    "Size": "8",
+    "BitWidth": "64",
     "TestTypes": [
       {
         "DataType": "arrow.FixedWidthTypes.Date64",
@@ -241,7 +241,7 @@
     "QualifiedType": "arrow.Duration",
     "InternalType": "int64",
     "Default": "0",
-    "Size": "8",
+    "BitWidth": "64",
     "Opt": {
       "Parametric": true
     },
@@ -275,7 +275,7 @@
     "QualifiedType": "arrow.MonthInterval",
     "InternalType": "int32",
     "Default": "0",
-    "Size": "4",
+    "BitWidth": "32",
     "TestTypes": [
       {
         "DataType": "arrow.FixedWidthTypes.MonthInterval",
@@ -290,7 +290,7 @@
     "QualifiedType": "float16.Num",
     "InternalType": "float32",
     "Default": "0",
-    "Size": "2",
+    "BitWidth": "16",
     "ValuesMethod": "Values",
     "Compare": {
       "Eq": "left.Uint16() == right.Uint16()",
@@ -313,7 +313,7 @@
     "QualifiedType": "decimal128.Num",
     "InternalType": "decimal128.Num",
     "Default": "0",
-    "Size": "16",
+    "BitWidth": "16",
     "ValuesMethod": "Values",
     "Compare": {
       "comment": "From: https://github.com/apache/arrow/blob/438a140142be423b1b2af2399567a0a8aeba9aa1/cpp/src/arrow/util/basic_decimal.cc#L546",
@@ -338,7 +338,7 @@
     "QualifiedType": "arrow.DayTimeInterval",
     "InternalType": "arrow.DayTimeInterval",
     "Default": "0",
-    "Size": "4",
+    "BitWidth": "32",
     "Compare": {
       "Eq": "left.Days == right.Days && left.Milliseconds == right.Milliseconds",
       "Less": "left.Days < right.Days && left.Milliseconds < right.Milliseconds",
@@ -353,5 +353,28 @@
         "WantValues": "[{0 0} {1 2} {2 4} {3 6} {4 8} {5 10} {6 12} {7 14} {8 16} (null)]"
       }
     ]
+  },
+  {
+    "Name": "Boolean",
+    "name": "bool",
+    "Type": "bool",
+    "Default": "false",
+    "BitWidth": "1",
+    "Compare": {
+      "comment": "Compare 1 (true) and 0 (false)",
+      "Eq": "left == right",
+      "Less": "types.BooleanToInt8(left) < types.BooleanToInt8(right)",
+      "LessEq": "types.BooleanToInt8(left) <= types.BooleanToInt8(right)",
+      "Greater": "types.BooleanToInt8(left) > types.BooleanToInt8(right)",
+      "GreaterEq": "types.BooleanToInt8(left) >= types.BooleanToInt8(right)"
+    },
+    "TestTypes": [
+      {
+        "DataType": "arrow.FixedWidthTypes.Boolean",
+        "Builder": "i%2 == 0",
+        "WantValues": "[true false true false true false true false true (null)]"
+      }
+    ],
+    "ExcludeGenerate": ["valueiterator", "chunkiterator"]
   }
 ]

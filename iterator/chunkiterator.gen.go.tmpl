@@ -23,6 +23,7 @@ import (
 )
 
 {{range .In}}
+{{if not (contains .ExcludeGenerate "chunkiterator") }}
 // {{.Name}}ChunkIterator is an iterator for reading an Arrow Column value by value.
 type {{.Name}}ChunkIterator struct {
 	refCount int64
@@ -125,4 +126,5 @@ func (cr *{{.Name}}ChunkIterator) Release() {
 }
 
 
+{{end}}
 {{end}}

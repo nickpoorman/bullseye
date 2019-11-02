@@ -22,6 +22,7 @@ import (
 	"github.com/apache/arrow/go/arrow"
 	"github.com/apache/arrow/go/arrow/decimal128"
 	"github.com/apache/arrow/go/arrow/float16"
+	"github.com/go-bullseye/bullseye/types"
 	"github.com/pkg/errors"
 )
 
@@ -2442,5 +2443,126 @@ func (e DayTimeIntervalElement) String() string {
 
 // IsNil returns true when the underlying value is nil.
 func (e DayTimeIntervalElement) IsNil() bool {
+	return e.v == nil
+}
+
+// BooleanElement has logic to apply to this type.
+type BooleanElement struct {
+	v interface{}
+}
+
+// NewBooleanElement creates a new BooleanElement logic wrapper
+// from the given value provided as v.
+func NewBooleanElement(v interface{}) *BooleanElement {
+	return &BooleanElement{
+		v: v,
+	}
+}
+
+// compare takes the left and right elements and applies the comparator function to them.
+func (e BooleanElement) compare(r Element, f func(left, right bool) bool) (bool, error) {
+	rE, ok := r.(*BooleanElement)
+	if !ok {
+		return false, errors.Errorf("cannot cast %v to BooleanElement", r)
+	}
+
+	// When their nil status isn't the same, we can't compare them.
+	// Explicit both nil should be handled elsewhere.
+	if e.IsNil() != rE.IsNil() {
+		return false, nil
+	}
+
+	lv, lok := e.v.(bool)
+	if !lok {
+		return false, errors.Errorf("cannot assert %v is a bool", e.v)
+	}
+	rv, rok := rE.v.(bool)
+	if !rok {
+		return false, errors.Errorf("cannot assert %v is a bool", rE.v)
+	}
+
+	return f(lv, rv), nil
+}
+
+// Comparation methods
+
+// Eq returns true if the left BooleanElement is equal to the right BooleanElement.
+// When both are nil Eq returns false because nil actualy signifies "unknown"
+// and you can't compare two things when you don't know what they are.
+func (e BooleanElement) Eq(r Element) (bool, error) {
+	if e.IsNil() && r.IsNil() {
+		return false, nil
+	}
+	return e.compare(r, func(left, right bool) bool {
+		return left == right
+	})
+}
+
+// EqStrict returns true if the left BooleanElement is equal to the right BooleanElement.
+// When both are nil EqStrict returns true.
+func (e BooleanElement) EqStrict(r Element) (bool, error) {
+	if e.IsNil() && r.IsNil() {
+		return true, nil
+	}
+	return e.compare(r, func(left, right bool) bool {
+		return left == right
+	})
+}
+
+// Neq returns true if the left BooleanElement
+// is not equal to the right BooleanElement.
+func (e BooleanElement) Neq(r Element) (bool, error) {
+	v, ok := e.Eq(r)
+	return !v, ok
+}
+
+// Less returns true if the left BooleanElement
+// is less than the right BooleanElement.
+func (e BooleanElement) Less(r Element) (bool, error) {
+	return e.compare(r, func(left, right bool) bool {
+		return types.BooleanToInt8(left) < types.BooleanToInt8(right)
+	})
+}
+
+// LessEq returns true if the left BooleanElement
+// is less than or equal to the right BooleanElement.
+func (e BooleanElement) LessEq(r Element) (bool, error) {
+	return e.compare(r, func(left, right bool) bool {
+		return types.BooleanToInt8(left) <= types.BooleanToInt8(right)
+	})
+}
+
+// Greater returns true if the left BooleanElement
+// is greter than the right BooleanElement.
+func (e BooleanElement) Greater(r Element) (bool, error) {
+	return e.compare(r, func(left, right bool) bool {
+		return types.BooleanToInt8(left) > types.BooleanToInt8(right)
+	})
+}
+
+// GreaterEq returns true if the left BooleanElement
+// is greter than or equal to the right BooleanElement.
+func (e BooleanElement) GreaterEq(r Element) (bool, error) {
+	return e.compare(r, func(left, right bool) bool {
+		return types.BooleanToInt8(left) >= types.BooleanToInt8(right)
+	})
+}
+
+// Accessor/conversion methods
+
+// Copy returns a copy of this BooleanElement.
+func (e BooleanElement) Copy() Element {
+	return e
+}
+
+// String prints the value of this element as a string.
+func (e BooleanElement) String() string {
+	return fmt.Sprintf("%v", e.v)
+}
+
+// Information methods
+
+// IsNil returns true when the underlying value is nil.
+func (e BooleanElement) IsNil() bool {
 	return e.v == nil
 }

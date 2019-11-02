@@ -23,7 +23,7 @@ GO_COMPILED_TEMPLATES = $(patsubst %.gen.go.tmpl,%.gen.go,$(GO_TEMPLATES))
 
 default: build
 
-build: vendor go-templates
+build: go-templates
 
 clean:
 	find . -type f -name '*.gen.go' -exec rm {} +
@@ -43,18 +43,16 @@ bench: $(GO_SOURCES)
 
 go-templates: bin/tmpl $(GO_COMPILED_TEMPLATES)
 
-%.gen.go: %.gen.go.tmpl
+%.gen.go: %.gen.go.tmpl types.tmpldata
 	bin/tmpl -i -data=types.tmpldata $<
 
 fmt: $(SOURCES_NO_VENDOR)
 	goimports -w $^
 
-# bin/tmpl: ./vendor/github.com/apache/arrow/go/arrow/_tools/tmpl/main.go
-# 	$(GO_BUILD) -o $@ "./$(<D)"
 bin/tmpl: ./_tools/tmpl/main.go
 	$(GO_BUILD) -o $@ "./$(<D)"
 
-vendor:
-	${GO_MOD} vendor
+# vendor:
+# 	${GO_MOD} vendor
 
 .PHONY: default build clean test ci test-debug-assert bench go-templates

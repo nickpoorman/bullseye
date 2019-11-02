@@ -30,6 +30,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"reflect"
 	"strings"
 	"text/template"
 
@@ -151,10 +152,20 @@ func fileMode(path string) os.FileMode {
 	return stat.Mode()
 }
 
+func contains(list []interface{}, s interface{}) bool {
+	for _, e := range list {
+		if reflect.DeepEqual(s, e) {
+			return true
+		}
+	}
+	return false
+}
+
 var funcs = template.FuncMap{
-	"lower": strings.ToLower,
-	"upper": strings.ToUpper,
-	"camel": strcase.ToLowerCamel,
+	"lower":    strings.ToLower,
+	"upper":    strings.ToUpper,
+	"camel":    strcase.ToLowerCamel,
+	"contains": contains,
 }
 
 func process(data interface{}, specs []pathSpec) {
@@ -187,7 +198,9 @@ func process(data interface{}, specs []pathSpec) {
 			}
 		}
 
-		ioutil.WriteFile(spec.out, generated, fileMode(spec.in))
+		if err := ioutil.WriteFile(spec.out, generated, fileMode(spec.in)); err != nil {
+			fmt.Printf("error writing file: %s\n%v\n", spec.out, err)
+		}
 	}
 }
 

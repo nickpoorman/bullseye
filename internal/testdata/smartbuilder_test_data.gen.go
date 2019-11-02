@@ -171,6 +171,11 @@ func GenerateSmartBuilderTestCases() []SmartBuilderTestCase {
 			Dtype:  arrow.FixedWidthTypes.DayTimeInterval,
 			Want:   `rec[0]["col-day_time_interval"]: [{0 0} {1 2} {2 4} {3 6} {4 8} {5 10} {6 12} {7 14} {8 16} (null)]`,
 		},
+		{
+			Values: BooleanGen(),
+			Dtype:  arrow.FixedWidthTypes.Boolean,
+			Want:   `rec[0]["col-bool"]: [true false true false true false true false true (null)]`,
+		},
 	}
 }
 
@@ -394,6 +399,14 @@ func DayTimeIntervalGen() []interface{} {
 	vals := make([]interface{}, 9)
 	for i := range vals {
 		vals[i] = arrow.DayTimeInterval{Days: int32(i), Milliseconds: int32(i * 2)}
+	}
+	return vals
+}
+
+func BooleanGen() []interface{} {
+	vals := make([]interface{}, 9)
+	for i := range vals {
+		vals[i] = i%2 == 0
 	}
 	return vals
 }
