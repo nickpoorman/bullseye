@@ -376,5 +376,19 @@
       }
     ],
     "ExcludeGenerate": ["valueiterator", "chunkiterator"]
+  },
+  {
+    "Name": "String",
+    "name": "utf8",
+    "Type": "string",
+    "Default": "",
+    "TestTypes": [
+      {
+        "DataType": "arrow.BinaryTypes.String",
+        "Builder": "strconv.Itoa(i)",
+        "WantValues": "[\"0\" \"1\" \"2\" \"3\" \"4\" \"5\" \"6\" \"7\" \"8\" (null)]"
+      }
+    ],
+    "ExcludeGenerate": ["valueiterator", "chunkiterator"]
   }
 ]

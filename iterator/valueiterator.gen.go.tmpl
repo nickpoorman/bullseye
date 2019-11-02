@@ -53,9 +53,6 @@ func NewValueIterator(column *array.Column) ValueIterator {
 		return New{{.Name}}ValueIterator(column)
 	{{end}}
 
-	case *arrow.StringType:
-		return NewStringValueIterator(column)
-		
 	case *arrow.ListType:
 		return NewListValueIterator(column)
 

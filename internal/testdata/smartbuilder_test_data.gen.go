@@ -17,6 +17,8 @@
 package testdata
 
 import (
+	"strconv"
+
 	"github.com/apache/arrow/go/arrow"
 	"github.com/apache/arrow/go/arrow/decimal128"
 	"github.com/apache/arrow/go/arrow/float16"
@@ -175,6 +177,11 @@ func GenerateSmartBuilderTestCases() []SmartBuilderTestCase {
 			Values: BooleanGen(),
 			Dtype:  arrow.FixedWidthTypes.Boolean,
 			Want:   `rec[0]["col-bool"]: [true false true false true false true false true (null)]`,
+		},
+		{
+			Values: StringGen(),
+			Dtype:  arrow.BinaryTypes.String,
+			Want:   `rec[0]["col-utf8"]: ["0" "1" "2" "3" "4" "5" "6" "7" "8" (null)]`,
 		},
 	}
 }
@@ -407,6 +414,14 @@ func BooleanGen() []interface{} {
 	vals := make([]interface{}, 9)
 	for i := range vals {
 		vals[i] = i%2 == 0
+	}
+	return vals
+}
+
+func StringGen() []interface{} {
+	vals := make([]interface{}, 9)
+	for i := range vals {
+		vals[i] = strconv.Itoa(i)
 	}
 	return vals
 }

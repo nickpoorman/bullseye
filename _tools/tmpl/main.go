@@ -138,7 +138,8 @@ func mustReadAll(path string) []byte {
 func readData(path string) interface{} {
 	data := mustReadAll(path)
 	var v interface{}
-	if err := json.Unmarshal(StripComments(data), &v); err != nil {
+	// if err := json.Unmarshal(StripComments(data), &v); err != nil {
+	if err := json.Unmarshal(data, &v); err != nil {
 		errExit("invalid JSON data: %s", err.Error())
 	}
 	return v

@@ -2566,3 +2566,124 @@ func (e BooleanElement) String() string {
 func (e BooleanElement) IsNil() bool {
 	return e.v == nil
 }
+
+// StringElement has logic to apply to this type.
+type StringElement struct {
+	v interface{}
+}
+
+// NewStringElement creates a new StringElement logic wrapper
+// from the given value provided as v.
+func NewStringElement(v interface{}) *StringElement {
+	return &StringElement{
+		v: v,
+	}
+}
+
+// compare takes the left and right elements and applies the comparator function to them.
+func (e StringElement) compare(r Element, f func(left, right string) bool) (bool, error) {
+	rE, ok := r.(*StringElement)
+	if !ok {
+		return false, errors.Errorf("cannot cast %v to StringElement", r)
+	}
+
+	// When their nil status isn't the same, we can't compare them.
+	// Explicit both nil should be handled elsewhere.
+	if e.IsNil() != rE.IsNil() {
+		return false, nil
+	}
+
+	lv, lok := e.v.(string)
+	if !lok {
+		return false, errors.Errorf("cannot assert %v is a string", e.v)
+	}
+	rv, rok := rE.v.(string)
+	if !rok {
+		return false, errors.Errorf("cannot assert %v is a string", rE.v)
+	}
+
+	return f(lv, rv), nil
+}
+
+// Comparation methods
+
+// Eq returns true if the left StringElement is equal to the right StringElement.
+// When both are nil Eq returns false because nil actualy signifies "unknown"
+// and you can't compare two things when you don't know what they are.
+func (e StringElement) Eq(r Element) (bool, error) {
+	if e.IsNil() && r.IsNil() {
+		return false, nil
+	}
+	return e.compare(r, func(left, right string) bool {
+		return left == right
+	})
+}
+
+// EqStrict returns true if the left StringElement is equal to the right StringElement.
+// When both are nil EqStrict returns true.
+func (e StringElement) EqStrict(r Element) (bool, error) {
+	if e.IsNil() && r.IsNil() {
+		return true, nil
+	}
+	return e.compare(r, func(left, right string) bool {
+		return left == right
+	})
+}
+
+// Neq returns true if the left StringElement
+// is not equal to the right StringElement.
+func (e StringElement) Neq(r Element) (bool, error) {
+	v, ok := e.Eq(r)
+	return !v, ok
+}
+
+// Less returns true if the left StringElement
+// is less than the right StringElement.
+func (e StringElement) Less(r Element) (bool, error) {
+	return e.compare(r, func(left, right string) bool {
+		return left < right
+	})
+}
+
+// LessEq returns true if the left StringElement
+// is less than or equal to the right StringElement.
+func (e StringElement) LessEq(r Element) (bool, error) {
+	return e.compare(r, func(left, right string) bool {
+		return left <= right
+	})
+}
+
+// Greater returns true if the left StringElement
+// is greter than the right StringElement.
+func (e StringElement) Greater(r Element) (bool, error) {
+	return e.compare(r, func(left, right string) bool {
+		return left > right
+	})
+}
+
+// GreaterEq returns true if the left StringElement
+// is greter than or equal to the right StringElement.
+func (e StringElement) GreaterEq(r Element) (bool, error) {
+	return e.compare(r, func(left, right string) bool {
+		return left >= right
+	})
+}
+
+// Accessor/conversion methods
+
+// Copy returns a copy of this StringElement.
+func (e StringElement) Copy() Element {
+	return e
+}
+
+// String prints the value of this element as a string.
+func (e StringElement) String() string {
+	return fmt.Sprintf("%v", e.v)
+}
+
+// Information methods
+
+// IsNil returns true when the underlying value is nil.
+func (e StringElement) IsNil() bool {
+	return e.v == nil
+}

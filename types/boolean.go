@@ -14,7 +14,9 @@
 
 package types
 
-type Signed128BitInteger struct {
-	Lo uint64 `json:"lo"` // low bits
-	Hi int64  `json:"hi"` // high bits
+func BooleanToInt8(b bool) int8 {
+	if b {
+		return 1
+	}
+	return 0
 }
