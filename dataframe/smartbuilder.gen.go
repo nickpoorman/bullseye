@@ -22,8 +22,6 @@ import (
 
 	"github.com/apache/arrow/go/arrow"
 	"github.com/apache/arrow/go/arrow/array"
-	"github.com/apache/arrow/go/arrow/decimal128"
-	"github.com/apache/arrow/go/arrow/float16"
 	"github.com/go-bullseye/bullseye/types"
 	"github.com/pkg/errors"
 )
@@ -39,7 +37,10 @@ func (sb *SmartBuilder) initFieldAppender(field *arrow.Field) AppenderFunc {
 			if v == nil {
 				builder.AppendNull()
 			} else {
-				vT := v.(int64)
+				vT, ok := types.CastToInt64(v)
+				if !ok {
+					panic(fmt.Sprintf("cannot cast %T to int64", v))
+				}
 				builder.Append(vT)
 			}
 		}
@@ -50,7 +51,10 @@ func (sb *SmartBuilder) initFieldAppender(field *arrow.Field) AppenderFunc {
 			if v == nil {
 				builder.AppendNull()
 			} else {
-				vT := v.(uint64)
+				vT, ok := types.CastToUint64(v)
+				if !ok {
+					panic(fmt.Sprintf("cannot cast %T to uint64", v))
+				}
 				builder.Append(vT)
 			}
 		}
@@ -61,7 +65,10 @@ func (sb *SmartBuilder) initFieldAppender(field *arrow.Field) AppenderFunc {
 			if v == nil {
 				builder.AppendNull()
 			} else {
-				vT := v.(int32)
+				vT, ok := types.CastToInt32(v)
+				if !ok {
+					panic(fmt.Sprintf("cannot cast %T to int32", v))
+				}
 				builder.Append(vT)
 			}
 		}
@@ -72,7 +79,10 @@ func (sb *SmartBuilder) initFieldAppender(field *arrow.Field) AppenderFunc {
 			if v == nil {
 				builder.AppendNull()
 			} else {
-				vT := v.(uint32)
+				vT, ok := types.CastToUint32(v)
+				if !ok {
+					panic(fmt.Sprintf("cannot cast %T to uint32", v))
+				}
 				builder.Append(vT)
 			}
 		}
@@ -83,7 +93,10 @@ func (sb *SmartBuilder) initFieldAppender(field *arrow.Field) AppenderFunc {
 			if v == nil {
 				builder.AppendNull()
 			} else {
-				vT := v.(float64)
+				vT, ok := types.CastToFloat64(v)
+				if !ok {
+					panic(fmt.Sprintf("cannot cast %T to float64", v))
+				}
 				builder.Append(vT)
 			}
 		}
@@ -94,7 +107,10 @@ func (sb *SmartBuilder) initFieldAppender(field *arrow.Field) AppenderFunc {
 			if v == nil {
 				builder.AppendNull()
 			} else {
-				vT := v.(float32)
+				vT, ok := types.CastToFloat32(v)
+				if !ok {
+					panic(fmt.Sprintf("cannot cast %T to float32", v))
+				}
 				builder.Append(vT)
 			}
 		}
@@ -105,7 +121,10 @@ func (sb *SmartBuilder) initFieldAppender(field *arrow.Field) AppenderFunc {
 			if v == nil {
 				builder.AppendNull()
 			} else {
-				vT := v.(int16)
+				vT, ok := types.CastToInt16(v)
+				if !ok {
+					panic(fmt.Sprintf("cannot cast %T to int16", v))
+				}
 				builder.Append(vT)
 			}
 		}
@@ -116,7 +135,10 @@ func (sb *SmartBuilder) initFieldAppender(field *arrow.Field) AppenderFunc {
 			if v == nil {
 				builder.AppendNull()
 			} else {
-				vT := v.(uint16)
+				vT, ok := types.CastToUint16(v)
+				if !ok {
+					panic(fmt.Sprintf("cannot cast %T to uint16", v))
+				}
 				builder.Append(vT)
 			}
 		}
@@ -127,7 +149,10 @@ func (sb *SmartBuilder) initFieldAppender(field *arrow.Field) AppenderFunc {
 			if v == nil {
 				builder.AppendNull()
 			} else {
-				vT := v.(int8)
+				vT, ok := types.CastToInt8(v)
+				if !ok {
+					panic(fmt.Sprintf("cannot cast %T to int8", v))
+				}
 				builder.Append(vT)
 			}
 		}
@@ -138,7 +163,10 @@ func (sb *SmartBuilder) initFieldAppender(field *arrow.Field) AppenderFunc {
 			if v == nil {
 				builder.AppendNull()
 			} else {
-				vT := v.(uint8)
+				vT, ok := types.CastToUint8(v)
+				if !ok {
+					panic(fmt.Sprintf("cannot cast %T to uint8", v))
+				}
 				builder.Append(vT)
 			}
 		}
@@ -149,267 +177,9 @@ func (sb *SmartBuilder) initFieldAppender(field *arrow.Field) AppenderFunc {
 			if v == nil {
 				builder.AppendNull()
 			} else {
-				vT := v.(Timestamp)
-				builder.Append(vT)
-			}
-		}
-
-	case *arrow.Time32Type:
-		return func(field array.Builder, v interface{}) {
-			builder := field.(*array.Time32Builder)
-			if v == nil {
-				builder.AppendNull()
-			} else {
-				vT := v.(Time32)
-				builder.Append(vT)
-			}
-		}
-
-	case *arrow.Time64Type:
-		return func(field array.Builder, v interface{}) {
-			builder := field.(*array.Time64Builder)
-			if v == nil {
-				builder.AppendNull()
-			} else {
-				vT := v.(Time64)
-				builder.Append(vT)
-			}
-		}
-
-	case *arrow.Date32Type:
-		return func(field array.Builder, v interface{}) {
-			builder := field.(*array.Date32Builder)
-			if v == nil {
-				builder.AppendNull()
-			} else {
-				vT := v.(Date32)
-				builder.Append(vT)
-			}
-		}
-
-	case *arrow.Date64Type:
-		return func(field array.Builder, v interface{}) {
-			builder := field.(*array.Date64Builder)
-			if v == nil {
-				builder.AppendNull()
-			} else {
-				vT := v.(Date64)
-				builder.Append(vT)
-			}
-		}
-
-	case *arrow.DurationType:
-		return func(field array.Builder, v interface{}) {
-			builder := field.(*array.DurationBuilder)
-			if v == nil {
-				builder.AppendNull()
-			} else {
-				vT := v.(Duration)
-				builder.Append(vT)
-			}
-		}
-
-	case *arrow.MonthIntervalType:
-		return func(field array.Builder, v interface{}) {
-			builder := field.(*array.MonthIntervalBuilder)
-			if v == nil {
-				builder.AppendNull()
-			} else {
-				vT := v.(MonthInterval)
-				builder.Append(vT)
-			}
-		}
-
-	case *arrow.Float16Type:
-		return func(field array.Builder, v interface{}) {
-			builder := field.(*array.Float16Builder)
-			if v == nil {
-				builder.AppendNull()
-			} else {
-				vT := v.(Float16)
-				builder.Append(vT)
-			}
-		}
-
-	case *arrow.Decimal128Type:
-		return func(field array.Builder, v interface{}) {
-			builder := field.(*array.Decimal128Builder)
-			if v == nil {
-				builder.AppendNull()
-			} else {
-				vT := v.(Decimal128Type)
-				builder.Append(vT)
-			}
-		}
-
-	case *arrow.DayTimeIntervalType:
-		return func(field array.Builder, v interface{}) {
-			builder := field.(*array.DayTimeIntervalBuilder)
-			if v == nil {
-				builder.AppendNull()
-			} else {
-				vT := v.(DayTimeInterval)
-				builder.Append(vT)
-			}
-		}
-
-	case *arrow.BooleanType:
-		return func(field array.Builder, v interface{}) {
-			builder := field.(*array.BooleanBuilder)
-			if v == nil {
-				builder.AppendNull()
-			} else {
-				vT := v.(bool)
-				builder.Append(vT)
-			}
-		}
-
-	case *arrow.StringType:
-		return func(field array.Builder, v interface{}) {
-			builder := field.(*array.StringBuilder)
-			if v == nil {
-				builder.AppendNull()
-			} else {
-				vT := v.(string)
-				builder.Append(vT)
-			}
-		}
-
-	case *arrow.BooleanType:
-		return func(field array.Builder, v interface{}) {
-			builder := field.(*array.BooleanBuilder)
-			if v == nil {
-				builder.AppendNull()
-			} else {
-				vT := v.(bool)
-				builder.Append(vT)
-			}
-		}
-	case *arrow.Int8Type:
-		return func(field array.Builder, v interface{}) {
-			builder := field.(*array.Int8Builder)
-			if v == nil {
-				builder.AppendNull()
-			} else {
-				vT := v.(int8)
-				builder.Append(vT)
-			}
-		}
-	case *arrow.Int16Type:
-		return func(field array.Builder, v interface{}) {
-			builder := field.(*array.Int16Builder)
-			if v == nil {
-				builder.AppendNull()
-			} else {
-				vT := v.(int16)
-				builder.Append(vT)
-			}
-		}
-	case *arrow.Int32Type:
-		return func(field array.Builder, v interface{}) {
-			builder := field.(*array.Int32Builder)
-			if v == nil {
-				builder.AppendNull()
-			} else {
-				vT := v.(int32)
-				builder.Append(vT)
-			}
-		}
-	case *arrow.Int64Type:
-		return func(field array.Builder, v interface{}) {
-			builder := field.(*array.Int64Builder)
-			if v == nil {
-				builder.AppendNull()
-			} else {
-				vT := v.(int64)
-				builder.Append(vT)
-			}
-		}
-	case *arrow.Uint8Type:
-		return func(field array.Builder, v interface{}) {
-			builder := field.(*array.Uint8Builder)
-			if v == nil {
-				builder.AppendNull()
-			} else {
-				vT := v.(uint8)
-				builder.Append(vT)
-			}
-		}
-	case *arrow.Uint16Type:
-		return func(field array.Builder, v interface{}) {
-			builder := field.(*array.Uint16Builder)
-			if v == nil {
-				builder.AppendNull()
-			} else {
-				vT := v.(uint16)
-				builder.Append(vT)
-			}
-		}
-	case *arrow.Uint32Type:
-		return func(field array.Builder, v interface{}) {
-			builder := field.(*array.Uint32Builder)
-			if v == nil {
-				builder.AppendNull()
-			} else {
-				vT := v.(uint32)
-				builder.Append(vT)
-			}
-		}
-	case *arrow.Uint64Type:
-		return func(field array.Builder, v interface{}) {
-			builder := field.(*array.Uint64Builder)
-			if v == nil {
-				builder.AppendNull()
-			} else {
-				vT := v.(uint64)
-				builder.Append(vT)
-			}
-		}
-	case *arrow.Float32Type:
-		return func(field array.Builder, v interface{}) {
-			builder := field.(*array.Float32Builder)
-			if v == nil {
-				builder.AppendNull()
-			} else {
-				vT := v.(float32)
-				builder.Append(vT)
-			}
-		}
-	case *arrow.Float64Type:
-		return func(field array.Builder, v interface{}) {
-			builder := field.(*array.Float64Builder)
-			if v == nil {
-				builder.AppendNull()
-			} else {
-				vT := v.(float64)
-				builder.Append(vT)
-			}
-		}
-	case *arrow.StringType:
-		return func(field array.Builder, v interface{}) {
-			builder := field.(*array.StringBuilder)
-			if v == nil {
-				builder.AppendNull()
-			} else {
-				vT := v.(string)
-				builder.Append(vT)
-			}
-		}
-
-	case *arrow.TimestampType:
-		return func(field array.Builder, v interface{}) {
-			builder := field.(*array.TimestampBuilder)
-			if v == nil {
-				builder.AppendNull()
-			} else {
-				var vT arrow.Timestamp
-				switch t := v.(type) {
-				case int64:
-					vT = arrow.Timestamp(t)
-				case arrow.Timestamp:
-					vT = t
-				default:
-					vT = arrow.Timestamp(v.(int64))
+				vT, ok := types.CastToTimestamp(v)
+				if !ok {
+					panic(fmt.Sprintf("cannot cast %T to arrow.Timestamp", v))
 				}
 				builder.Append(vT)
 			}
@@ -421,14 +191,9 @@ func (sb *SmartBuilder) initFieldAppender(field *arrow.Field) AppenderFunc {
 			if v == nil {
 				builder.AppendNull()
 			} else {
-				var vT arrow.Time32
-				switch t := v.(type) {
-				case int32:
-					vT = arrow.Time32(t)
-				case arrow.Time32:
-					vT = t
-				default:
-					vT = arrow.Time32(v.(int32))
+				vT, ok := types.CastToTime32(v)
+				if !ok {
+					panic(fmt.Sprintf("cannot cast %T to arrow.Time32", v))
 				}
 				builder.Append(vT)
 			}
@@ -440,14 +205,9 @@ func (sb *SmartBuilder) initFieldAppender(field *arrow.Field) AppenderFunc {
 			if v == nil {
 				builder.AppendNull()
 			} else {
-				var vT arrow.Time64
-				switch t := v.(type) {
-				case int64:
-					vT = arrow.Time64(t)
-				case arrow.Time64:
-					vT = t
-				default:
-					vT = arrow.Time64(v.(int64))
+				vT, ok := types.CastToTime64(v)
+				if !ok {
+					panic(fmt.Sprintf("cannot cast %T to arrow.Time64", v))
 				}
 				builder.Append(vT)
 			}
@@ -459,14 +219,9 @@ func (sb *SmartBuilder) initFieldAppender(field *arrow.Field) AppenderFunc {
 			if v == nil {
 				builder.AppendNull()
 			} else {
-				var vT arrow.Date32
-				switch t := v.(type) {
-				case int32:
-					vT = arrow.Date32(t)
-				case arrow.Date32:
-					vT = t
-				default:
-					vT = arrow.Date32(v.(int32))
+				vT, ok := types.CastToDate32(v)
+				if !ok {
+					panic(fmt.Sprintf("cannot cast %T to arrow.Date32", v))
 				}
 				builder.Append(vT)
 			}
@@ -478,14 +233,9 @@ func (sb *SmartBuilder) initFieldAppender(field *arrow.Field) AppenderFunc {
 			if v == nil {
 				builder.AppendNull()
 			} else {
-				var vT arrow.Date64
-				switch t := v.(type) {
-				case int64:
-					vT = arrow.Date64(t)
-				case arrow.Date64:
-					vT = t
-				default:
-					vT = arrow.Date64(v.(int64))
+				vT, ok := types.CastToDate64(v)
+				if !ok {
+					panic(fmt.Sprintf("cannot cast %T to arrow.Date64", v))
 				}
 				builder.Append(vT)
 			}
@@ -497,14 +247,9 @@ func (sb *SmartBuilder) initFieldAppender(field *arrow.Field) AppenderFunc {
 			if v == nil {
 				builder.AppendNull()
 			} else {
-				var vT arrow.Duration
-				switch t := v.(type) {
-				case int64:
-					vT = arrow.Duration(t)
-				case arrow.Duration:
-					vT = t
-				default:
-					vT = arrow.Duration(v.(int64))
+				vT, ok := types.CastToDuration(v)
+				if !ok {
+					panic(fmt.Sprintf("cannot cast %T to arrow.Duration", v))
 				}
 				builder.Append(vT)
 			}
@@ -516,14 +261,9 @@ func (sb *SmartBuilder) initFieldAppender(field *arrow.Field) AppenderFunc {
 			if v == nil {
 				builder.AppendNull()
 			} else {
-				var vT arrow.MonthInterval
-				switch t := v.(type) {
-				case int32:
-					vT = arrow.MonthInterval(t)
-				case arrow.MonthInterval:
-					vT = t
-				default:
-					vT = arrow.MonthInterval(v.(int32))
+				vT, ok := types.CastToMonthInterval(v)
+				if !ok {
+					panic(fmt.Sprintf("cannot cast %T to arrow.MonthInterval", v))
 				}
 				builder.Append(vT)
 			}
@@ -535,14 +275,9 @@ func (sb *SmartBuilder) initFieldAppender(field *arrow.Field) AppenderFunc {
 			if v == nil {
 				builder.AppendNull()
 			} else {
-				var vT float16.Num
-				switch t := v.(type) {
-				case float32:
-					vT = float16.New(t)
-				case float16.Num:
-					vT = t
-				default:
-					vT = float16.New(v.(float32))
+				vT, ok := types.CastToFloat16(v)
+				if !ok {
+					panic(fmt.Sprintf("cannot cast %T to float16.Num", v))
 				}
 				builder.Append(vT)
 			}
@@ -554,18 +289,9 @@ func (sb *SmartBuilder) initFieldAppender(field *arrow.Field) AppenderFunc {
 			if v == nil {
 				builder.AppendNull()
 			} else {
-				var vT decimal128.Num
-				switch t := v.(type) {
-				case uint64:
-					vT = decimal128.FromU64(t)
-				case int64:
-					vT = decimal128.FromI64(t)
-				case decimal128.Num:
-					vT = t
-				case types.Signed128BitInteger:
-					vT = decimal128.New(t.Hi, t.Lo)
-				default:
-					vT = v.(decimal128.Num)
+				vT, ok := types.CastToDecimal128(v)
+				if !ok {
+					panic(fmt.Sprintf("cannot cast %T to decimal128.Num", v))
 				}
 				builder.Append(vT)
 			}
@@ -577,7 +303,38 @@ func (sb *SmartBuilder) initFieldAppender(field *arrow.Field) AppenderFunc {
 			if v == nil {
 				builder.AppendNull()
 			} else {
-				vT := v.(arrow.DayTimeInterval)
+				vT, ok := types.CastToDayTimeInterval(v)
+				if !ok {
+					panic(fmt.Sprintf("cannot cast %T to arrow.DayTimeInterval", v))
+				}
+				builder.Append(vT)
+			}
+		}
+
+	case *arrow.BooleanType:
+		return func(field array.Builder, v interface{}) {
+			builder := field.(*array.BooleanBuilder)
+			if v == nil {
+				builder.AppendNull()
+			} else {
+				vT, ok := types.CastToBoolean(v)
+				if !ok {
+					panic(fmt.Sprintf("cannot cast %T to bool", v))
+				}
+				builder.Append(vT)
+			}
+		}
+
+	case *arrow.StringType:
+		return func(field array.Builder, v interface{}) {
+			builder := field.(*array.StringBuilder)
+			if v == nil {
+				builder.AppendNull()
+			} else {
+				vT, ok := types.CastToString(v)
+				if !ok {
+					panic(fmt.Sprintf("cannot cast %T to string", v))
+				}
 				builder.Append(vT)
 			}
 		}
