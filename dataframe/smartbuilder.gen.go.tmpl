@@ -31,7 +31,7 @@ import (
 // TODO(nickpoorman): Add null, etc. to types.tmpldata.
 func (sb *SmartBuilder) initFieldAppender(field *arrow.Field) AppenderFunc {
 	switch field.Type.(type) {
-    {{range $root := .In}}
+    {{range .In}}
     case *arrow.{{.Name}}Type:
 		return func(field array.Builder, v interface{}) {
 			builder := field.(*array.{{.Name}}Builder)
@@ -105,32 +105,14 @@ func (sb *SmartBuilder) initFieldAppender(field *arrow.Field) AppenderFunc {
 func (sb *SmartBuilder) appendValue(bldr array.Builder, v interface{}) {
 	fmt.Printf("appendValue: |%v| - %T\n", v, bldr)
 	switch b := bldr.(type) {
-	case *array.BooleanBuilder:
-		b.Append(v.(bool))
-	case *array.Int8Builder:
-		b.Append(v.(int8))
-	case *array.Int16Builder:
-		b.Append(v.(int16))
-	case *array.Int32Builder:
-		b.Append(v.(int32))
-	case *array.Int64Builder:
-		b.Append(v.(int64))
-	case *array.Uint8Builder:
-		b.Append(v.(uint8))
-	case *array.Uint16Builder:
-		b.Append(v.(uint16))
-	case *array.Uint32Builder:
-		b.Append(v.(uint32))
-	case *array.Uint64Builder:
-		b.Append(v.(uint64))
-	case *array.Float32Builder:
-		b.Append(v.(float32))
-	case *array.Float64Builder:
-		b.Append(v.(float64))
-	case *array.StringBuilder:
-		b.Append(v.(string))
-	case *array.Date32Builder:
-		b.Append(arrow.Date32(v.(int32)))
+    {{range .In}}
+    case *array.{{.Name}}Builder:
+		vT, ok := types.CastTo{{.Name}}(v);
+        if !ok {
+            panic(fmt.Sprintf("cannot cast %T to {{or .QualifiedType .Type}}", v))
+        }
+        b.Append(vT)
+    {{end}}
 
 	case *array.ListBuilder:
 		b.Append(true)

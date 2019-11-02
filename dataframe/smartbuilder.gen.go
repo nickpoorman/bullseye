@@ -397,32 +397,160 @@ func (sb *SmartBuilder) initFieldAppender(field *arrow.Field) AppenderFunc {
 func (sb *SmartBuilder) appendValue(bldr array.Builder, v interface{}) {
 	fmt.Printf("appendValue: |%v| - %T\n", v, bldr)
 	switch b := bldr.(type) {
-	case *array.BooleanBuilder:
-		b.Append(v.(bool))
-	case *array.Int8Builder:
-		b.Append(v.(int8))
-	case *array.Int16Builder:
-		b.Append(v.(int16))
-	case *array.Int32Builder:
-		b.Append(v.(int32))
+
 	case *array.Int64Builder:
-		b.Append(v.(int64))
-	case *array.Uint8Builder:
-		b.Append(v.(uint8))
-	case *array.Uint16Builder:
-		b.Append(v.(uint16))
-	case *array.Uint32Builder:
-		b.Append(v.(uint32))
+		vT, ok := types.CastToInt64(v)
+		if !ok {
+			panic(fmt.Sprintf("cannot cast %T to int64", v))
+		}
+		b.Append(vT)
+
 	case *array.Uint64Builder:
-		b.Append(v.(uint64))
-	case *array.Float32Builder:
-		b.Append(v.(float32))
+		vT, ok := types.CastToUint64(v)
+		if !ok {
+			panic(fmt.Sprintf("cannot cast %T to uint64", v))
+		}
+		b.Append(vT)
+
+	case *array.Int32Builder:
+		vT, ok := types.CastToInt32(v)
+		if !ok {
+			panic(fmt.Sprintf("cannot cast %T to int32", v))
+		}
+		b.Append(vT)
+
+	case *array.Uint32Builder:
+		vT, ok := types.CastToUint32(v)
+		if !ok {
+			panic(fmt.Sprintf("cannot cast %T to uint32", v))
+		}
+		b.Append(vT)
+
 	case *array.Float64Builder:
-		b.Append(v.(float64))
-	case *array.StringBuilder:
-		b.Append(v.(string))
+		vT, ok := types.CastToFloat64(v)
+		if !ok {
+			panic(fmt.Sprintf("cannot cast %T to float64", v))
+		}
+		b.Append(vT)
+
+	case *array.Float32Builder:
+		vT, ok := types.CastToFloat32(v)
+		if !ok {
+			panic(fmt.Sprintf("cannot cast %T to float32", v))
+		}
+		b.Append(vT)
+
+	case *array.Int16Builder:
+		vT, ok := types.CastToInt16(v)
+		if !ok {
+			panic(fmt.Sprintf("cannot cast %T to int16", v))
+		}
+		b.Append(vT)
+
+	case *array.Uint16Builder:
+		vT, ok := types.CastToUint16(v)
+		if !ok {
+			panic(fmt.Sprintf("cannot cast %T to uint16", v))
+		}
+		b.Append(vT)
+
+	case *array.Int8Builder:
+		vT, ok := types.CastToInt8(v)
+		if !ok {
+			panic(fmt.Sprintf("cannot cast %T to int8", v))
+		}
+		b.Append(vT)
+
+	case *array.Uint8Builder:
+		vT, ok := types.CastToUint8(v)
+		if !ok {
+			panic(fmt.Sprintf("cannot cast %T to uint8", v))
+		}
+		b.Append(vT)
+
+	case *array.TimestampBuilder:
+		vT, ok := types.CastToTimestamp(v)
+		if !ok {
+			panic(fmt.Sprintf("cannot cast %T to arrow.Timestamp", v))
+		}
+		b.Append(vT)
+
+	case *array.Time32Builder:
+		vT, ok := types.CastToTime32(v)
+		if !ok {
+			panic(fmt.Sprintf("cannot cast %T to arrow.Time32", v))
+		}
+		b.Append(vT)
+
+	case *array.Time64Builder:
+		vT, ok := types.CastToTime64(v)
+		if !ok {
+			panic(fmt.Sprintf("cannot cast %T to arrow.Time64", v))
+		}
+		b.Append(vT)
+
 	case *array.Date32Builder:
-		b.Append(arrow.Date32(v.(int32)))
+		vT, ok := types.CastToDate32(v)
+		if !ok {
+			panic(fmt.Sprintf("cannot cast %T to arrow.Date32", v))
+		}
+		b.Append(vT)
+
+	case *array.Date64Builder:
+		vT, ok := types.CastToDate64(v)
+		if !ok {
+			panic(fmt.Sprintf("cannot cast %T to arrow.Date64", v))
+		}
+		b.Append(vT)
+
+	case *array.DurationBuilder:
+		vT, ok := types.CastToDuration(v)
+		if !ok {
+			panic(fmt.Sprintf("cannot cast %T to arrow.Duration", v))
+		}
+		b.Append(vT)
+
+	case *array.MonthIntervalBuilder:
+		vT, ok := types.CastToMonthInterval(v)
+		if !ok {
+			panic(fmt.Sprintf("cannot cast %T to arrow.MonthInterval", v))
+		}
+		b.Append(vT)
+
+	case *array.Float16Builder:
+		vT, ok := types.CastToFloat16(v)
+		if !ok {
+			panic(fmt.Sprintf("cannot cast %T to float16.Num", v))
+		}
+		b.Append(vT)
+
+	case *array.Decimal128Builder:
+		vT, ok := types.CastToDecimal128(v)
+		if !ok {
+			panic(fmt.Sprintf("cannot cast %T to decimal128.Num", v))
+		}
+		b.Append(vT)
+
+	case *array.DayTimeIntervalBuilder:
+		vT, ok := types.CastToDayTimeInterval(v)
+		if !ok {
+			panic(fmt.Sprintf("cannot cast %T to arrow.DayTimeInterval", v))
+		}
+		b.Append(vT)
+
+	case *array.BooleanBuilder:
+		vT, ok := types.CastToBoolean(v)
+		if !ok {
+			panic(fmt.Sprintf("cannot cast %T to bool", v))
+		}
+		b.Append(vT)
+
+	case *array.StringBuilder:
+		vT, ok := types.CastToString(v)
+		if !ok {
+			panic(fmt.Sprintf("cannot cast %T to string", v))
+		}
+		b.Append(vT)
 
 	case *array.ListBuilder:
 		b.Append(true)
