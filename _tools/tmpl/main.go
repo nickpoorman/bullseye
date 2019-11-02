@@ -31,6 +31,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"reflect"
+	"regexp"
 	"strings"
 	"text/template"
 
@@ -162,11 +163,17 @@ func contains(list []interface{}, s interface{}) bool {
 	return false
 }
 
+func stripPackage(pkg string, s string) string {
+	re := regexp.MustCompile(fmt.Sprintf("^%s\\.", pkg))
+	return re.ReplaceAllString(s, "")
+}
+
 var funcs = template.FuncMap{
-	"lower":    strings.ToLower,
-	"upper":    strings.ToUpper,
-	"camel":    strcase.ToLowerCamel,
-	"contains": contains,
+	"lower":        strings.ToLower,
+	"upper":        strings.ToUpper,
+	"camel":        strcase.ToLowerCamel,
+	"contains":     contains,
+	"stripPackage": stripPackage,
 }
 
 func process(data interface{}, specs []pathSpec) {

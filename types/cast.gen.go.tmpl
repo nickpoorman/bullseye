@@ -12,12 +12,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package types
+{{$package := "types"}}
 
-// TODO(nickpoorman): Generate these for all types
-func BooleanToInt8(b bool) int8 {
-	if b {
-		return 1
-	}
-	return 0
+package {{$package}}
+
+import (
+	"github.com/apache/arrow/go/arrow"
+	"github.com/apache/arrow/go/arrow/decimal128"
+	"github.com/apache/arrow/go/arrow/float16"
+)
+
+{{range .In}}
+func CastTo{{.Name}}(v interface{}) ({{or .QualifiedType .Type}}, bool) {
+    switch t := v.(type) {
+    case {{or .QualifiedType .Type}}:
+        return t, true
+    {{- range .CastTo}}
+    {{- if .From}}
+    case {{stripPackage $package .From}}:
+        return {{.Via}}, true
+    {{- end}}
+    {{- end}}
+    default:
+       return {{.Default}}, false
+    }
 }
+
+{{end}}

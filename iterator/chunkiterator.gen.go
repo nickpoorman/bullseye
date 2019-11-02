@@ -228,107 +228,6 @@ func (cr *Uint64ChunkIterator) Release() {
 	}
 }
 
-// Float64ChunkIterator is an iterator for reading an Arrow Column value by value.
-type Float64ChunkIterator struct {
-	refCount int64
-	col      *array.Column
-
-	// Things Chunked maintains. We're going to maintain it ourselves.
-	chunks []*array.Float64 // cache the chunks on this iterator
-	length int64            // this isn't set right on Chunked so we won't rely on it there. Instead we keep the correct value here.
-	nulls  int64
-	dtype  arrow.DataType
-
-	// Things we need to maintain for the iterator
-	currentIndex int            // current chunk
-	currentChunk *array.Float64 // current chunk
-}
-
-// NewFloat64ChunkIterator creates a new Float64ChunkIterator for reading an Arrow Column.
-func NewFloat64ChunkIterator(col *array.Column) *Float64ChunkIterator {
-	col.Retain()
-
-	// Chunked is not using the correct type to keep track of length so we have to recalculate it.
-	columnChunks := col.Data().Chunks()
-	chunks := make([]*array.Float64, len(columnChunks))
-	var length int64
-	var nulls int64
-
-	for i, chunk := range columnChunks {
-		// Keep our own refs to chunks
-		chunks[i] = chunk.(*array.Float64)
-		// Retain the chunk
-		chunks[i].Retain()
-
-		// Keep our own counters instead of Chunked's
-		length += int64(chunk.Len())
-		nulls += int64(chunk.NullN())
-	}
-
-	return &Float64ChunkIterator{
-		refCount: 1,
-		col:      col,
-
-		chunks: chunks,
-		length: length,
-		nulls:  nulls,
-		dtype:  col.DataType(),
-
-		currentIndex: 0,
-		currentChunk: nil,
-	}
-}
-
-// Chunk will return the current chunk that the iterator is on.
-func (cr *Float64ChunkIterator) Chunk() *array.Float64 { return cr.currentChunk }
-
-// ChunkValues returns the underlying []float64 chunk values.
-// Keep in mind the []float64 type might not be able
-// to account for nil values. You must check for those explicitly via the chunk.
-func (cr *Float64ChunkIterator) ChunkValues() []float64 { return cr.Chunk().Float64Values() }
-
-// Next moves the iterator to the next chunk. This will return false
-// when there are no more chunks.
-func (cr *Float64ChunkIterator) Next() bool {
-	if cr.currentIndex >= len(cr.chunks) {
-		return false
-	}
-
-	if cr.currentChunk != nil {
-		cr.currentChunk.Release()
-	}
-
-	cr.currentChunk = cr.chunks[cr.currentIndex]
-	cr.currentChunk.Retain()
-	cr.currentIndex++
-
-	return true
-}
-
-// Retain keeps a reference to the Float64ChunkIterator
-func (cr *Float64ChunkIterator) Retain() {
-	atomic.AddInt64(&cr.refCount, 1)
-}
-
-// Release removes a reference to the Float64ChunkIterator
-func (cr *Float64ChunkIterator) Release() {
-	debug.Assert(atomic.LoadInt64(&cr.refCount) > 0, "too many releases")
-	ref := atomic.AddInt64(&cr.refCount, -1)
-	if ref == 0 {
-		cr.col.Release()
-		for i := range cr.chunks {
-			cr.chunks[i].Release()
-		}
-		if cr.currentChunk != nil {
-			cr.currentChunk.Release()
-			cr.currentChunk = nil
-		}
-		cr.col = nil
-		cr.chunks = nil
-		cr.dtype = nil
-	}
-}
-
 // Int32ChunkIterator is an iterator for reading an Arrow Column value by value.
 type Int32ChunkIterator struct {
 	refCount int64
@@ -514,6 +413,107 @@ func (cr *Uint32ChunkIterator) Retain() {
 
 // Release removes a reference to the Uint32ChunkIterator
 func (cr *Uint32ChunkIterator) Release() {
+	debug.Assert(atomic.LoadInt64(&cr.refCount) > 0, "too many releases")
+	ref := atomic.AddInt64(&cr.refCount, -1)
+	if ref == 0 {
+		cr.col.Release()
+		for i := range cr.chunks {
+			cr.chunks[i].Release()
+		}
+		if cr.currentChunk != nil {
+			cr.currentChunk.Release()
+			cr.currentChunk = nil
+		}
+		cr.col = nil
+		cr.chunks = nil
+		cr.dtype = nil
+	}
+}
+
+// Float64ChunkIterator is an iterator for reading an Arrow Column value by value.
+type Float64ChunkIterator struct {
+	refCount int64
+	col      *array.Column
+
+	// Things Chunked maintains. We're going to maintain it ourselves.
+	chunks []*array.Float64 // cache the chunks on this iterator
+	length int64            // this isn't set right on Chunked so we won't rely on it there. Instead we keep the correct value here.
+	nulls  int64
+	dtype  arrow.DataType
+
+	// Things we need to maintain for the iterator
+	currentIndex int            // current chunk
+	currentChunk *array.Float64 // current chunk
+}
+
+// NewFloat64ChunkIterator creates a new Float64ChunkIterator for reading an Arrow Column.
+func NewFloat64ChunkIterator(col *array.Column) *Float64ChunkIterator {
+	col.Retain()
+
+	// Chunked is not using the correct type to keep track of length so we have to recalculate it.
+	columnChunks := col.Data().Chunks()
+	chunks := make([]*array.Float64, len(columnChunks))
+	var length int64
+	var nulls int64
+
+	for i, chunk := range columnChunks {
+		// Keep our own refs to chunks
+		chunks[i] = chunk.(*array.Float64)
+		// Retain the chunk
+		chunks[i].Retain()
+
+		// Keep our own counters instead of Chunked's
+		length += int64(chunk.Len())
+		nulls += int64(chunk.NullN())
+	}
+
+	return &Float64ChunkIterator{
+		refCount: 1,
+		col:      col,
+
+		chunks: chunks,
+		length: length,
+		nulls:  nulls,
+		dtype:  col.DataType(),
+
+		currentIndex: 0,
+		currentChunk: nil,
+	}
+}
+
+// Chunk will return the current chunk that the iterator is on.
+func (cr *Float64ChunkIterator) Chunk() *array.Float64 { return cr.currentChunk }
+
+// ChunkValues returns the underlying []float64 chunk values.
+// Keep in mind the []float64 type might not be able
+// to account for nil values. You must check for those explicitly via the chunk.
+func (cr *Float64ChunkIterator) ChunkValues() []float64 { return cr.Chunk().Float64Values() }
+
+// Next moves the iterator to the next chunk. This will return false
+// when there are no more chunks.
+func (cr *Float64ChunkIterator) Next() bool {
+	if cr.currentIndex >= len(cr.chunks) {
+		return false
+	}
+
+	if cr.currentChunk != nil {
+		cr.currentChunk.Release()
+	}
+
+	cr.currentChunk = cr.chunks[cr.currentIndex]
+	cr.currentChunk.Retain()
+	cr.currentIndex++
+
+	return true
+}
+
+// Retain keeps a reference to the Float64ChunkIterator
+func (cr *Float64ChunkIterator) Retain() {
+	atomic.AddInt64(&cr.refCount, 1)
+}
+
+// Release removes a reference to the Float64ChunkIterator
+func (cr *Float64ChunkIterator) Release() {
 	debug.Assert(atomic.LoadInt64(&cr.refCount) > 0, "too many releases")
 	ref := atomic.AddInt64(&cr.refCount, -1)
 	if ref == 0 {

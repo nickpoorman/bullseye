@@ -24,18 +24,6 @@
     ]
   },
   {
-    "Name": "Float64",
-    "name": "float64",
-    "Type": "float64",
-    "Default": "0",
-    "BitWidth": "64",
-    "TestTypes": [
-      {
-        "DataType": "arrow.PrimitiveTypes.Float64"
-      }
-    ]
-  },
-  {
     "Name": "Int32",
     "name": "int32",
     "Type": "int32",
@@ -59,6 +47,18 @@
     "TestTypes": [
       {
         "DataType": "arrow.PrimitiveTypes.Uint32"
+      }
+    ]
+  },
+  {
+    "Name": "Float64",
+    "name": "float64",
+    "Type": "float64",
+    "Default": "0",
+    "BitWidth": "64",
+    "TestTypes": [
+      {
+        "DataType": "arrow.PrimitiveTypes.Float64"
       }
     ]
   },
@@ -154,6 +154,12 @@
         "Name": "Timestamp_ns",
         "Builder": "arrow.Timestamp(int64(i))"
       }
+    ],
+    "CastTo": [
+      {
+        "From": "int64",
+        "Via": "arrow.Timestamp(t)"
+      }
     ]
   },
   {
@@ -177,6 +183,12 @@
         "DataType": "arrow.FixedWidthTypes.Time32ms",
         "Name": "Time32ms",
         "Builder": "arrow.Time32(int32(i))"
+      }
+    ],
+    "CastTo": [
+      {
+        "From": "int32",
+        "Via": "arrow.Time32(t)"
       }
     ]
   },
@@ -202,6 +214,12 @@
         "Name": "Time64ns",
         "Builder": "arrow.Time64(int64(i))"
       }
+    ],
+    "CastTo": [
+      {
+        "From": "int64",
+        "Via": "arrow.Time64(t)"
+      }
     ]
   },
   {
@@ -217,6 +235,12 @@
         "DataType": "arrow.FixedWidthTypes.Date32",
         "Builder": "arrow.Date32(int32(i))"
       }
+    ],
+    "CastTo": [
+      {
+        "From": "int32",
+        "Via": "arrow.Date32(t)"
+      }
     ]
   },
   {
@@ -231,6 +255,12 @@
       {
         "DataType": "arrow.FixedWidthTypes.Date64",
         "Builder": "arrow.Date64(int64(i))"
+      }
+    ],
+    "CastTo": [
+      {
+        "From": "int64",
+        "Via": "arrow.Date64(t)"
       }
     ]
   },
@@ -266,6 +296,12 @@
         "Name": "Duration_ns",
         "Builder": "arrow.Duration(int64(i))"
       }
+    ],
+    "CastTo": [
+      {
+        "From": "int64",
+        "Via": "arrow.Duration(t)"
+      }
     ]
   },
   {
@@ -281,6 +317,12 @@
         "DataType": "arrow.FixedWidthTypes.MonthInterval",
         "Builder": "arrow.MonthInterval(i)"
       }
+    ],
+    "CastTo": [
+      {
+        "From": "int32",
+        "Via": "arrow.MonthInterval(t)"
+      }
     ]
   },
   {
@@ -289,7 +331,7 @@
     "Type": "Float16",
     "QualifiedType": "float16.Num",
     "InternalType": "float32",
-    "Default": "0",
+    "Default": "float16.New(0)",
     "BitWidth": "16",
     "ValuesMethod": "Values",
     "Compare": {
@@ -304,6 +346,12 @@
         "DataType": "arrow.FixedWidthTypes.Float16",
         "Builder": "float16.New(float32(i))"
       }
+    ],
+    "CastTo": [
+      {
+        "From": "float32",
+        "Via": "float16.New(t)"
+      }
     ]
   },
   {
@@ -312,7 +360,7 @@
     "Type": "Decimal128Type",
     "QualifiedType": "decimal128.Num",
     "InternalType": "decimal128.Num",
-    "Default": "0",
+    "Default": "decimal128.New(0, 0)",
     "BitWidth": "16",
     "ValuesMethod": "Values",
     "Compare": {
@@ -329,6 +377,20 @@
         "Builder": "decimal128.New(int64(i), uint64(i))",
         "WantValues": "[{0 0} {1 1} {2 2} {3 3} {4 4} {5 5} {6 6} {7 7} {8 8} (null)]"
       }
+    ],
+    "CastTo": [
+      {
+        "From": "uint64",
+        "Via": "decimal128.FromU64(t)"
+      },
+      {
+        "From": "int64",
+        "Via": "decimal128.FromI64(t)"
+      },
+      {
+        "From": "types.Signed128BitInteger",
+        "Via": "decimal128.New(t.Hi, t.Lo)"
+      }
     ]
   },
   {
@@ -337,7 +399,7 @@
     "Type": "DayTimeInterval",
     "QualifiedType": "arrow.DayTimeInterval",
     "InternalType": "arrow.DayTimeInterval",
-    "Default": "0",
+    "Default": "arrow.DayTimeInterval{Days: 0, Milliseconds: 0}",
     "BitWidth": "32",
     "Compare": {
       "Eq": "left.Days == right.Days && left.Milliseconds == right.Milliseconds",
@@ -375,13 +437,106 @@
         "WantValues": "[true false true false true false true false true (null)]"
       }
     ],
-    "ExcludeGenerate": ["valueiterator", "chunkiterator"]
+    "ExcludeGenerate": [
+      "valueiterator",
+      "chunkiterator"
+    ],
+    "CastTo": [
+      {
+        "From": "int64",
+        "Via": "t != 0"
+      },
+      {
+        "From": "uint64",
+        "Via": "t != 0"
+      },
+      {
+        "From": "int32",
+        "Via": "t != 0"
+      },
+      {
+        "From": "uint32",
+        "Via": "t != 0"
+      },
+      {
+        "From": "float64",
+        "Via": "t != 0.0"
+      },
+      {
+        "From": "float32",
+        "Via": "t != 0.0"
+      },
+      {
+        "From": "int16",
+        "Via": "t != 0"
+      },
+      {
+        "From": "uint16",
+        "Via": "t != 0"
+      },
+      {
+        "From": "int8",
+        "Via": "t != 0"
+      },
+      {
+        "From": "uint8",
+        "Via": "t != 0"
+      },
+      {
+        "From": "arrow.Timestamp",
+        "Via": "t != 0"
+      },
+      {
+        "From": "arrow.Time32",
+        "Via": "t != 0"
+      },
+      {
+        "From": "arrow.Time64",
+        "Via": "t != 0"
+      },
+      {
+        "From": "arrow.Date32",
+        "Via": "t != 0"
+      },
+      {
+        "From": "arrow.Date64",
+        "Via": "t != 0"
+      },
+      {
+        "From": "arrow.Duration",
+        "Via": "t != 0"
+      },
+      {
+        "From": "arrow.MonthInterval",
+        "Via": "t != 0"
+      },
+      {
+        "From": "float16.Num",
+        "Via": "t.Float32() != 0.0"
+      },
+      {
+        "From": "decimal128.Num",
+        "Via": "t.Sign() != 0"
+      },
+      {
+        "From": "arrow.DayTimeInterval",
+        "Via": "t.Days != 0 || t.Milliseconds != 0"
+      },
+      {
+        "From": "string",
+        "Via": "t != \"\""
+      },
+      {
+        "From": "nil",
+        "Via": "false"
+      }
+    ]
   },
   {
     "Name": "String",
     "name": "utf8",
     "Type": "string",
-    "Default": "",
+    "Default": "\"\"",
     "TestTypes": [
       {
         "DataType": "arrow.BinaryTypes.String",
@@ -389,6 +544,9 @@
         "WantValues": "[\"0\" \"1\" \"2\" \"3\" \"4\" \"5\" \"6\" \"7\" \"8\" (null)]"
       }
     ],
-    "ExcludeGenerate": ["valueiterator", "chunkiterator"]
+    "ExcludeGenerate": [
+      "valueiterator",
+      "chunkiterator"
+    ]
   }
 ]

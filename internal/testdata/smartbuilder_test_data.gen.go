@@ -44,11 +44,6 @@ func GenerateSmartBuilderTestCases() []SmartBuilderTestCase {
 			Want:   `rec[0]["col-uint64"]: [0 1 2 3 4 5 6 7 8 (null)]`,
 		},
 		{
-			Values: Float64Gen(),
-			Dtype:  arrow.PrimitiveTypes.Float64,
-			Want:   `rec[0]["col-float64"]: [0 1 2 3 4 5 6 7 8 (null)]`,
-		},
-		{
 			Values: Int32Gen(),
 			Dtype:  arrow.PrimitiveTypes.Int32,
 			Want:   `rec[0]["col-int32"]: [0 1 2 3 4 5 6 7 8 (null)]`,
@@ -57,6 +52,11 @@ func GenerateSmartBuilderTestCases() []SmartBuilderTestCase {
 			Values: Uint32Gen(),
 			Dtype:  arrow.PrimitiveTypes.Uint32,
 			Want:   `rec[0]["col-uint32"]: [0 1 2 3 4 5 6 7 8 (null)]`,
+		},
+		{
+			Values: Float64Gen(),
+			Dtype:  arrow.PrimitiveTypes.Float64,
+			Want:   `rec[0]["col-float64"]: [0 1 2 3 4 5 6 7 8 (null)]`,
 		},
 		{
 			Values: Float32Gen(),
@@ -202,14 +202,6 @@ func Uint64Gen() []interface{} {
 	return vals
 }
 
-func Float64Gen() []interface{} {
-	vals := make([]interface{}, 9)
-	for i := range vals {
-		vals[i] = float64(i)
-	}
-	return vals
-}
-
 func Int32Gen() []interface{} {
 	vals := make([]interface{}, 9)
 	for i := range vals {
@@ -222,6 +214,14 @@ func Uint32Gen() []interface{} {
 	vals := make([]interface{}, 9)
 	for i := range vals {
 		vals[i] = uint32(i)
+	}
+	return vals
+}
+
+func Float64Gen() []interface{} {
+	vals := make([]interface{}, 9)
+	for i := range vals {
+		vals[i] = float64(i)
 	}
 	return vals
 }

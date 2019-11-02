@@ -268,127 +268,6 @@ func (e Uint64Element) IsNil() bool {
 	return e.v == nil
 }
 
-// Float64Element has logic to apply to this type.
-type Float64Element struct {
-	v interface{}
-}
-
-// NewFloat64Element creates a new Float64Element logic wrapper
-// from the given value provided as v.
-func NewFloat64Element(v interface{}) *Float64Element {
-	return &Float64Element{
-		v: v,
-	}
-}
-
-// compare takes the left and right elements and applies the comparator function to them.
-func (e Float64Element) compare(r Element, f func(left, right float64) bool) (bool, error) {
-	rE, ok := r.(*Float64Element)
-	if !ok {
-		return false, errors.Errorf("cannot cast %v to Float64Element", r)
-	}
-
-	// When their nil status isn't the same, we can't compare them.
-	// Explicit both nil should be handled elsewhere.
-	if e.IsNil() != rE.IsNil() {
-		return false, nil
-	}
-
-	lv, lok := e.v.(float64)
-	if !lok {
-		return false, errors.Errorf("cannot assert %v is a float64", e.v)
-	}
-	rv, rok := rE.v.(float64)
-	if !rok {
-		return false, errors.Errorf("cannot assert %v is a float64", rE.v)
-	}
-
-	return f(lv, rv), nil
-}
-
-// Comparation methods
-
-// Eq returns true if the left Float64Element is equal to the right Float64Element.
-// When both are nil Eq returns false because nil actualy signifies "unknown"
-// and you can't compare two things when you don't know what they are.
-func (e Float64Element) Eq(r Element) (bool, error) {
-	if e.IsNil() && r.IsNil() {
-		return false, nil
-	}
-	return e.compare(r, func(left, right float64) bool {
-		return left == right
-	})
-}
-
-// EqStrict returns true if the left Float64Element is equal to the right Float64Element.
-// When both are nil EqStrict returns true.
-func (e Float64Element) EqStrict(r Element) (bool, error) {
-	if e.IsNil() && r.IsNil() {
-		return true, nil
-	}
-	return e.compare(r, func(left, right float64) bool {
-		return left == right
-	})
-}
-
-// Neq returns true if the left Float64Element
-// is not equal to the right Float64Element.
-func (e Float64Element) Neq(r Element) (bool, error) {
-	v, ok := e.Eq(r)
-	return !v, ok
-}
-
-// Less returns true if the left Float64Element
-// is less than the right Float64Element.
-func (e Float64Element) Less(r Element) (bool, error) {
-	return e.compare(r, func(left, right float64) bool {
-		return left < right
-	})
-}
-
-// LessEq returns true if the left Float64Element
-// is less than or equal to the right Float64Element.
-func (e Float64Element) LessEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right float64) bool {
-		return left <= right
-	})
-}
-
-// Greater returns true if the left Float64Element
-// is greter than the right Float64Element.
-func (e Float64Element) Greater(r Element) (bool, error) {
-	return e.compare(r, func(left, right float64) bool {
-		return left > right
-	})
-}
-
-// GreaterEq returns true if the left Float64Element
-// is greter than or equal to the right Float64Element.
-func (e Float64Element) GreaterEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right float64) bool {
-		return left >= right
-	})
-}
-
-// Accessor/conversion methods
-
-// Copy returns a copy of this Float64Element.
-func (e Float64Element) Copy() Element {
-	return e
-}
-
-// String prints the value of this element as a string.
-func (e Float64Element) String() string {
-	return fmt.Sprintf("%v", e.v)
-}
-
-// Information methods
-
-// IsNil returns true when the underlying value is nil.
-func (e Float64Element) IsNil() bool {
-	return e.v == nil
-}
-
 // Int32Element has logic to apply to this type.
 type Int32Element struct {
 	v interface{}
@@ -628,6 +507,127 @@ func (e Uint32Element) String() string {
 
 // IsNil returns true when the underlying value is nil.
 func (e Uint32Element) IsNil() bool {
+	return e.v == nil
+}
+
+// Float64Element has logic to apply to this type.
+type Float64Element struct {
+	v interface{}
+}
+
+// NewFloat64Element creates a new Float64Element logic wrapper
+// from the given value provided as v.
+func NewFloat64Element(v interface{}) *Float64Element {
+	return &Float64Element{
+		v: v,
+	}
+}
+
+// compare takes the left and right elements and applies the comparator function to them.
+func (e Float64Element) compare(r Element, f func(left, right float64) bool) (bool, error) {
+	rE, ok := r.(*Float64Element)
+	if !ok {
+		return false, errors.Errorf("cannot cast %v to Float64Element", r)
+	}
+
+	// When their nil status isn't the same, we can't compare them.
+	// Explicit both nil should be handled elsewhere.
+	if e.IsNil() != rE.IsNil() {
+		return false, nil
+	}
+
+	lv, lok := e.v.(float64)
+	if !lok {
+		return false, errors.Errorf("cannot assert %v is a float64", e.v)
+	}
+	rv, rok := rE.v.(float64)
+	if !rok {
+		return false, errors.Errorf("cannot assert %v is a float64", rE.v)
+	}
+
+	return f(lv, rv), nil
+}
+
+// Comparation methods
+
+// Eq returns true if the left Float64Element is equal to the right Float64Element.
+// When both are nil Eq returns false because nil actualy signifies "unknown"
+// and you can't compare two things when you don't know what they are.
+func (e Float64Element) Eq(r Element) (bool, error) {
+	if e.IsNil() && r.IsNil() {
+		return false, nil
+	}
+	return e.compare(r, func(left, right float64) bool {
+		return left == right
+	})
+}
+
+// EqStrict returns true if the left Float64Element is equal to the right Float64Element.
+// When both are nil EqStrict returns true.
+func (e Float64Element) EqStrict(r Element) (bool, error) {
+	if e.IsNil() && r.IsNil() {
+		return true, nil
+	}
+	return e.compare(r, func(left, right float64) bool {
+		return left == right
+	})
+}
+
+// Neq returns true if the left Float64Element
+// is not equal to the right Float64Element.
+func (e Float64Element) Neq(r Element) (bool, error) {
+	v, ok := e.Eq(r)
+	return !v, ok
+}
+
+// Less returns true if the left Float64Element
+// is less than the right Float64Element.
+func (e Float64Element) Less(r Element) (bool, error) {
+	return e.compare(r, func(left, right float64) bool {
+		return left < right
+	})
+}
+
+// LessEq returns true if the left Float64Element
+// is less than or equal to the right Float64Element.
+func (e Float64Element) LessEq(r Element) (bool, error) {
+	return e.compare(r, func(left, right float64) bool {
+		return left <= right
+	})
+}
+
+// Greater returns true if the left Float64Element
+// is greter than the right Float64Element.
+func (e Float64Element) Greater(r Element) (bool, error) {
+	return e.compare(r, func(left, right float64) bool {
+		return left > right
+	})
+}
+
+// GreaterEq returns true if the left Float64Element
+// is greter than or equal to the right Float64Element.
+func (e Float64Element) GreaterEq(r Element) (bool, error) {
+	return e.compare(r, func(left, right float64) bool {
+		return left >= right
+	})
+}
+
+// Accessor/conversion methods
+
+// Copy returns a copy of this Float64Element.
+func (e Float64Element) Copy() Element {
+	return e
+}
+
+// String prints the value of this element as a string.
+func (e Float64Element) String() string {
+	return fmt.Sprintf("%v", e.v)
+}
+
+// Information methods
+
+// IsNil returns true when the underlying value is nil.
+func (e Float64Element) IsNil() bool {
 	return e.v == nil
 }
 
