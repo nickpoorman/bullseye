@@ -339,6 +339,20 @@ func (sb *SmartBuilder) initFieldAppender(field *arrow.Field) AppenderFunc {
 			}
 		}
 
+	case *arrow.NullType:
+		return func(field array.Builder, v interface{}) {
+			builder := field.(*array.NullBuilder)
+			if v == nil {
+				builder.AppendNull()
+			} else {
+				vT, ok := types.CastToNull(v)
+				if !ok {
+					panic(fmt.Sprintf("cannot cast %T to interface{}", v))
+				}
+				builder.Append(vT)
+			}
+		}
+
 	case *arrow.ListType:
 		return func(b array.Builder, v interface{}) {
 			builder := b.(*array.ListBuilder)
@@ -549,6 +563,13 @@ func (sb *SmartBuilder) appendValue(bldr array.Builder, v interface{}) {
 		vT, ok := types.CastToString(v)
 		if !ok {
 			panic(fmt.Sprintf("cannot cast %T to string", v))
+		}
+		b.Append(vT)
+
+	case *array.NullBuilder:
+		vT, ok := types.CastToNull(v)
+		if !ok {
+			panic(fmt.Sprintf("cannot cast %T to interface{}", v))
 		}
 		b.Append(vT)
 

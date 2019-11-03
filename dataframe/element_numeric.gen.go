@@ -99,33 +99,25 @@ func (e Int64Element) Neq(r Element) (bool, error) {
 // Less returns true if the left Int64Element
 // is less than the right Int64Element.
 func (e Int64Element) Less(r Element) (bool, error) {
-	return e.compare(r, func(left, right int64) bool {
-		return left < right
-	})
+	return false, errors.New("operator < not defined on Int64")
 }
 
 // LessEq returns true if the left Int64Element
 // is less than or equal to the right Int64Element.
 func (e Int64Element) LessEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right int64) bool {
-		return left <= right
-	})
+	return false, errors.New("operator <= not defined on Int64")
 }
 
 // Greater returns true if the left Int64Element
 // is greter than the right Int64Element.
 func (e Int64Element) Greater(r Element) (bool, error) {
-	return e.compare(r, func(left, right int64) bool {
-		return left > right
-	})
+	return false, errors.New("operator > not defined on Int64")
 }
 
 // GreaterEq returns true if the left Int64Element
 // is greter than or equal to the right Int64Element.
 func (e Int64Element) GreaterEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right int64) bool {
-		return left >= right
-	})
+	return false, errors.New("operator >= not defined on Int64")
 }
 
 // Accessor/conversion methods
@@ -220,33 +212,25 @@ func (e Uint64Element) Neq(r Element) (bool, error) {
 // Less returns true if the left Uint64Element
 // is less than the right Uint64Element.
 func (e Uint64Element) Less(r Element) (bool, error) {
-	return e.compare(r, func(left, right uint64) bool {
-		return left < right
-	})
+	return false, errors.New("operator < not defined on Uint64")
 }
 
 // LessEq returns true if the left Uint64Element
 // is less than or equal to the right Uint64Element.
 func (e Uint64Element) LessEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right uint64) bool {
-		return left <= right
-	})
+	return false, errors.New("operator <= not defined on Uint64")
 }
 
 // Greater returns true if the left Uint64Element
 // is greter than the right Uint64Element.
 func (e Uint64Element) Greater(r Element) (bool, error) {
-	return e.compare(r, func(left, right uint64) bool {
-		return left > right
-	})
+	return false, errors.New("operator > not defined on Uint64")
 }
 
 // GreaterEq returns true if the left Uint64Element
 // is greter than or equal to the right Uint64Element.
 func (e Uint64Element) GreaterEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right uint64) bool {
-		return left >= right
-	})
+	return false, errors.New("operator >= not defined on Uint64")
 }
 
 // Accessor/conversion methods
@@ -341,33 +325,25 @@ func (e Int32Element) Neq(r Element) (bool, error) {
 // Less returns true if the left Int32Element
 // is less than the right Int32Element.
 func (e Int32Element) Less(r Element) (bool, error) {
-	return e.compare(r, func(left, right int32) bool {
-		return left < right
-	})
+	return false, errors.New("operator < not defined on Int32")
 }
 
 // LessEq returns true if the left Int32Element
 // is less than or equal to the right Int32Element.
 func (e Int32Element) LessEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right int32) bool {
-		return left <= right
-	})
+	return false, errors.New("operator <= not defined on Int32")
 }
 
 // Greater returns true if the left Int32Element
 // is greter than the right Int32Element.
 func (e Int32Element) Greater(r Element) (bool, error) {
-	return e.compare(r, func(left, right int32) bool {
-		return left > right
-	})
+	return false, errors.New("operator > not defined on Int32")
 }
 
 // GreaterEq returns true if the left Int32Element
 // is greter than or equal to the right Int32Element.
 func (e Int32Element) GreaterEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right int32) bool {
-		return left >= right
-	})
+	return false, errors.New("operator >= not defined on Int32")
 }
 
 // Accessor/conversion methods
@@ -462,33 +438,25 @@ func (e Uint32Element) Neq(r Element) (bool, error) {
 // Less returns true if the left Uint32Element
 // is less than the right Uint32Element.
 func (e Uint32Element) Less(r Element) (bool, error) {
-	return e.compare(r, func(left, right uint32) bool {
-		return left < right
-	})
+	return false, errors.New("operator < not defined on Uint32")
 }
 
 // LessEq returns true if the left Uint32Element
 // is less than or equal to the right Uint32Element.
 func (e Uint32Element) LessEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right uint32) bool {
-		return left <= right
-	})
+	return false, errors.New("operator <= not defined on Uint32")
 }
 
 // Greater returns true if the left Uint32Element
 // is greter than the right Uint32Element.
 func (e Uint32Element) Greater(r Element) (bool, error) {
-	return e.compare(r, func(left, right uint32) bool {
-		return left > right
-	})
+	return false, errors.New("operator > not defined on Uint32")
 }
 
 // GreaterEq returns true if the left Uint32Element
 // is greter than or equal to the right Uint32Element.
 func (e Uint32Element) GreaterEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right uint32) bool {
-		return left >= right
-	})
+	return false, errors.New("operator >= not defined on Uint32")
 }
 
 // Accessor/conversion methods
@@ -583,33 +551,25 @@ func (e Float64Element) Neq(r Element) (bool, error) {
 // Less returns true if the left Float64Element
 // is less than the right Float64Element.
 func (e Float64Element) Less(r Element) (bool, error) {
-	return e.compare(r, func(left, right float64) bool {
-		return left < right
-	})
+	return false, errors.New("operator < not defined on Float64")
 }
 
 // LessEq returns true if the left Float64Element
 // is less than or equal to the right Float64Element.
 func (e Float64Element) LessEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right float64) bool {
-		return left <= right
-	})
+	return false, errors.New("operator <= not defined on Float64")
 }
 
 // Greater returns true if the left Float64Element
 // is greter than the right Float64Element.
 func (e Float64Element) Greater(r Element) (bool, error) {
-	return e.compare(r, func(left, right float64) bool {
-		return left > right
-	})
+	return false, errors.New("operator > not defined on Float64")
 }
 
 // GreaterEq returns true if the left Float64Element
 // is greter than or equal to the right Float64Element.
 func (e Float64Element) GreaterEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right float64) bool {
-		return left >= right
-	})
+	return false, errors.New("operator >= not defined on Float64")
 }
 
 // Accessor/conversion methods
@@ -704,33 +664,25 @@ func (e Float32Element) Neq(r Element) (bool, error) {
 // Less returns true if the left Float32Element
 // is less than the right Float32Element.
 func (e Float32Element) Less(r Element) (bool, error) {
-	return e.compare(r, func(left, right float32) bool {
-		return left < right
-	})
+	return false, errors.New("operator < not defined on Float32")
 }
 
 // LessEq returns true if the left Float32Element
 // is less than or equal to the right Float32Element.
 func (e Float32Element) LessEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right float32) bool {
-		return left <= right
-	})
+	return false, errors.New("operator <= not defined on Float32")
 }
 
 // Greater returns true if the left Float32Element
 // is greter than the right Float32Element.
 func (e Float32Element) Greater(r Element) (bool, error) {
-	return e.compare(r, func(left, right float32) bool {
-		return left > right
-	})
+	return false, errors.New("operator > not defined on Float32")
 }
 
 // GreaterEq returns true if the left Float32Element
 // is greter than or equal to the right Float32Element.
 func (e Float32Element) GreaterEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right float32) bool {
-		return left >= right
-	})
+	return false, errors.New("operator >= not defined on Float32")
 }
 
 // Accessor/conversion methods
@@ -825,33 +777,25 @@ func (e Int16Element) Neq(r Element) (bool, error) {
 // Less returns true if the left Int16Element
 // is less than the right Int16Element.
 func (e Int16Element) Less(r Element) (bool, error) {
-	return e.compare(r, func(left, right int16) bool {
-		return left < right
-	})
+	return false, errors.New("operator < not defined on Int16")
 }
 
 // LessEq returns true if the left Int16Element
 // is less than or equal to the right Int16Element.
 func (e Int16Element) LessEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right int16) bool {
-		return left <= right
-	})
+	return false, errors.New("operator <= not defined on Int16")
 }
 
 // Greater returns true if the left Int16Element
 // is greter than the right Int16Element.
 func (e Int16Element) Greater(r Element) (bool, error) {
-	return e.compare(r, func(left, right int16) bool {
-		return left > right
-	})
+	return false, errors.New("operator > not defined on Int16")
 }
 
 // GreaterEq returns true if the left Int16Element
 // is greter than or equal to the right Int16Element.
 func (e Int16Element) GreaterEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right int16) bool {
-		return left >= right
-	})
+	return false, errors.New("operator >= not defined on Int16")
 }
 
 // Accessor/conversion methods
@@ -946,33 +890,25 @@ func (e Uint16Element) Neq(r Element) (bool, error) {
 // Less returns true if the left Uint16Element
 // is less than the right Uint16Element.
 func (e Uint16Element) Less(r Element) (bool, error) {
-	return e.compare(r, func(left, right uint16) bool {
-		return left < right
-	})
+	return false, errors.New("operator < not defined on Uint16")
 }
 
 // LessEq returns true if the left Uint16Element
 // is less than or equal to the right Uint16Element.
 func (e Uint16Element) LessEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right uint16) bool {
-		return left <= right
-	})
+	return false, errors.New("operator <= not defined on Uint16")
 }
 
 // Greater returns true if the left Uint16Element
 // is greter than the right Uint16Element.
 func (e Uint16Element) Greater(r Element) (bool, error) {
-	return e.compare(r, func(left, right uint16) bool {
-		return left > right
-	})
+	return false, errors.New("operator > not defined on Uint16")
 }
 
 // GreaterEq returns true if the left Uint16Element
 // is greter than or equal to the right Uint16Element.
 func (e Uint16Element) GreaterEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right uint16) bool {
-		return left >= right
-	})
+	return false, errors.New("operator >= not defined on Uint16")
 }
 
 // Accessor/conversion methods
@@ -1067,33 +1003,25 @@ func (e Int8Element) Neq(r Element) (bool, error) {
 // Less returns true if the left Int8Element
 // is less than the right Int8Element.
 func (e Int8Element) Less(r Element) (bool, error) {
-	return e.compare(r, func(left, right int8) bool {
-		return left < right
-	})
+	return false, errors.New("operator < not defined on Int8")
 }
 
 // LessEq returns true if the left Int8Element
 // is less than or equal to the right Int8Element.
 func (e Int8Element) LessEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right int8) bool {
-		return left <= right
-	})
+	return false, errors.New("operator <= not defined on Int8")
 }
 
 // Greater returns true if the left Int8Element
 // is greter than the right Int8Element.
 func (e Int8Element) Greater(r Element) (bool, error) {
-	return e.compare(r, func(left, right int8) bool {
-		return left > right
-	})
+	return false, errors.New("operator > not defined on Int8")
 }
 
 // GreaterEq returns true if the left Int8Element
 // is greter than or equal to the right Int8Element.
 func (e Int8Element) GreaterEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right int8) bool {
-		return left >= right
-	})
+	return false, errors.New("operator >= not defined on Int8")
 }
 
 // Accessor/conversion methods
@@ -1188,33 +1116,25 @@ func (e Uint8Element) Neq(r Element) (bool, error) {
 // Less returns true if the left Uint8Element
 // is less than the right Uint8Element.
 func (e Uint8Element) Less(r Element) (bool, error) {
-	return e.compare(r, func(left, right uint8) bool {
-		return left < right
-	})
+	return false, errors.New("operator < not defined on Uint8")
 }
 
 // LessEq returns true if the left Uint8Element
 // is less than or equal to the right Uint8Element.
 func (e Uint8Element) LessEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right uint8) bool {
-		return left <= right
-	})
+	return false, errors.New("operator <= not defined on Uint8")
 }
 
 // Greater returns true if the left Uint8Element
 // is greter than the right Uint8Element.
 func (e Uint8Element) Greater(r Element) (bool, error) {
-	return e.compare(r, func(left, right uint8) bool {
-		return left > right
-	})
+	return false, errors.New("operator > not defined on Uint8")
 }
 
 // GreaterEq returns true if the left Uint8Element
 // is greter than or equal to the right Uint8Element.
 func (e Uint8Element) GreaterEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right uint8) bool {
-		return left >= right
-	})
+	return false, errors.New("operator >= not defined on Uint8")
 }
 
 // Accessor/conversion methods
@@ -1309,33 +1229,25 @@ func (e TimestampElement) Neq(r Element) (bool, error) {
 // Less returns true if the left TimestampElement
 // is less than the right TimestampElement.
 func (e TimestampElement) Less(r Element) (bool, error) {
-	return e.compare(r, func(left, right arrow.Timestamp) bool {
-		return left < right
-	})
+	return false, errors.New("operator < not defined on Timestamp")
 }
 
 // LessEq returns true if the left TimestampElement
 // is less than or equal to the right TimestampElement.
 func (e TimestampElement) LessEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right arrow.Timestamp) bool {
-		return left <= right
-	})
+	return false, errors.New("operator <= not defined on Timestamp")
 }
 
 // Greater returns true if the left TimestampElement
 // is greter than the right TimestampElement.
 func (e TimestampElement) Greater(r Element) (bool, error) {
-	return e.compare(r, func(left, right arrow.Timestamp) bool {
-		return left > right
-	})
+	return false, errors.New("operator > not defined on Timestamp")
 }
 
 // GreaterEq returns true if the left TimestampElement
 // is greter than or equal to the right TimestampElement.
 func (e TimestampElement) GreaterEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right arrow.Timestamp) bool {
-		return left >= right
-	})
+	return false, errors.New("operator >= not defined on Timestamp")
 }
 
 // Accessor/conversion methods
@@ -1430,33 +1342,25 @@ func (e Time32Element) Neq(r Element) (bool, error) {
 // Less returns true if the left Time32Element
 // is less than the right Time32Element.
 func (e Time32Element) Less(r Element) (bool, error) {
-	return e.compare(r, func(left, right arrow.Time32) bool {
-		return left < right
-	})
+	return false, errors.New("operator < not defined on Time32")
 }
 
 // LessEq returns true if the left Time32Element
 // is less than or equal to the right Time32Element.
 func (e Time32Element) LessEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right arrow.Time32) bool {
-		return left <= right
-	})
+	return false, errors.New("operator <= not defined on Time32")
 }
 
 // Greater returns true if the left Time32Element
 // is greter than the right Time32Element.
 func (e Time32Element) Greater(r Element) (bool, error) {
-	return e.compare(r, func(left, right arrow.Time32) bool {
-		return left > right
-	})
+	return false, errors.New("operator > not defined on Time32")
 }
 
 // GreaterEq returns true if the left Time32Element
 // is greter than or equal to the right Time32Element.
 func (e Time32Element) GreaterEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right arrow.Time32) bool {
-		return left >= right
-	})
+	return false, errors.New("operator >= not defined on Time32")
 }
 
 // Accessor/conversion methods
@@ -1551,33 +1455,25 @@ func (e Time64Element) Neq(r Element) (bool, error) {
 // Less returns true if the left Time64Element
 // is less than the right Time64Element.
 func (e Time64Element) Less(r Element) (bool, error) {
-	return e.compare(r, func(left, right arrow.Time64) bool {
-		return left < right
-	})
+	return false, errors.New("operator < not defined on Time64")
 }
 
 // LessEq returns true if the left Time64Element
 // is less than or equal to the right Time64Element.
 func (e Time64Element) LessEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right arrow.Time64) bool {
-		return left <= right
-	})
+	return false, errors.New("operator <= not defined on Time64")
 }
 
 // Greater returns true if the left Time64Element
 // is greter than the right Time64Element.
 func (e Time64Element) Greater(r Element) (bool, error) {
-	return e.compare(r, func(left, right arrow.Time64) bool {
-		return left > right
-	})
+	return false, errors.New("operator > not defined on Time64")
 }
 
 // GreaterEq returns true if the left Time64Element
 // is greter than or equal to the right Time64Element.
 func (e Time64Element) GreaterEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right arrow.Time64) bool {
-		return left >= right
-	})
+	return false, errors.New("operator >= not defined on Time64")
 }
 
 // Accessor/conversion methods
@@ -1672,33 +1568,25 @@ func (e Date32Element) Neq(r Element) (bool, error) {
 // Less returns true if the left Date32Element
 // is less than the right Date32Element.
 func (e Date32Element) Less(r Element) (bool, error) {
-	return e.compare(r, func(left, right arrow.Date32) bool {
-		return left < right
-	})
+	return false, errors.New("operator < not defined on Date32")
 }
 
 // LessEq returns true if the left Date32Element
 // is less than or equal to the right Date32Element.
 func (e Date32Element) LessEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right arrow.Date32) bool {
-		return left <= right
-	})
+	return false, errors.New("operator <= not defined on Date32")
 }
 
 // Greater returns true if the left Date32Element
 // is greter than the right Date32Element.
 func (e Date32Element) Greater(r Element) (bool, error) {
-	return e.compare(r, func(left, right arrow.Date32) bool {
-		return left > right
-	})
+	return false, errors.New("operator > not defined on Date32")
 }
 
 // GreaterEq returns true if the left Date32Element
 // is greter than or equal to the right Date32Element.
 func (e Date32Element) GreaterEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right arrow.Date32) bool {
-		return left >= right
-	})
+	return false, errors.New("operator >= not defined on Date32")
 }
 
 // Accessor/conversion methods
@@ -1793,33 +1681,25 @@ func (e Date64Element) Neq(r Element) (bool, error) {
 // Less returns true if the left Date64Element
 // is less than the right Date64Element.
 func (e Date64Element) Less(r Element) (bool, error) {
-	return e.compare(r, func(left, right arrow.Date64) bool {
-		return left < right
-	})
+	return false, errors.New("operator < not defined on Date64")
 }
 
 // LessEq returns true if the left Date64Element
 // is less than or equal to the right Date64Element.
 func (e Date64Element) LessEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right arrow.Date64) bool {
-		return left <= right
-	})
+	return false, errors.New("operator <= not defined on Date64")
 }
 
 // Greater returns true if the left Date64Element
 // is greter than the right Date64Element.
 func (e Date64Element) Greater(r Element) (bool, error) {
-	return e.compare(r, func(left, right arrow.Date64) bool {
-		return left > right
-	})
+	return false, errors.New("operator > not defined on Date64")
 }
 
 // GreaterEq returns true if the left Date64Element
 // is greter than or equal to the right Date64Element.
 func (e Date64Element) GreaterEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right arrow.Date64) bool {
-		return left >= right
-	})
+	return false, errors.New("operator >= not defined on Date64")
 }
 
 // Accessor/conversion methods
@@ -1914,33 +1794,25 @@ func (e DurationElement) Neq(r Element) (bool, error) {
 // Less returns true if the left DurationElement
 // is less than the right DurationElement.
 func (e DurationElement) Less(r Element) (bool, error) {
-	return e.compare(r, func(left, right arrow.Duration) bool {
-		return left < right
-	})
+	return false, errors.New("operator < not defined on Duration")
 }
 
 // LessEq returns true if the left DurationElement
 // is less than or equal to the right DurationElement.
 func (e DurationElement) LessEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right arrow.Duration) bool {
-		return left <= right
-	})
+	return false, errors.New("operator <= not defined on Duration")
 }
 
 // Greater returns true if the left DurationElement
 // is greter than the right DurationElement.
 func (e DurationElement) Greater(r Element) (bool, error) {
-	return e.compare(r, func(left, right arrow.Duration) bool {
-		return left > right
-	})
+	return false, errors.New("operator > not defined on Duration")
 }
 
 // GreaterEq returns true if the left DurationElement
 // is greter than or equal to the right DurationElement.
 func (e DurationElement) GreaterEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right arrow.Duration) bool {
-		return left >= right
-	})
+	return false, errors.New("operator >= not defined on Duration")
 }
 
 // Accessor/conversion methods
@@ -2035,33 +1907,25 @@ func (e MonthIntervalElement) Neq(r Element) (bool, error) {
 // Less returns true if the left MonthIntervalElement
 // is less than the right MonthIntervalElement.
 func (e MonthIntervalElement) Less(r Element) (bool, error) {
-	return e.compare(r, func(left, right arrow.MonthInterval) bool {
-		return left < right
-	})
+	return false, errors.New("operator < not defined on MonthInterval")
 }
 
 // LessEq returns true if the left MonthIntervalElement
 // is less than or equal to the right MonthIntervalElement.
 func (e MonthIntervalElement) LessEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right arrow.MonthInterval) bool {
-		return left <= right
-	})
+	return false, errors.New("operator <= not defined on MonthInterval")
 }
 
 // Greater returns true if the left MonthIntervalElement
 // is greter than the right MonthIntervalElement.
 func (e MonthIntervalElement) Greater(r Element) (bool, error) {
-	return e.compare(r, func(left, right arrow.MonthInterval) bool {
-		return left > right
-	})
+	return false, errors.New("operator > not defined on MonthInterval")
 }
 
 // GreaterEq returns true if the left MonthIntervalElement
 // is greter than or equal to the right MonthIntervalElement.
 func (e MonthIntervalElement) GreaterEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right arrow.MonthInterval) bool {
-		return left >= right
-	})
+	return false, errors.New("operator >= not defined on MonthInterval")
 }
 
 // Accessor/conversion methods
@@ -2640,33 +2504,25 @@ func (e StringElement) Neq(r Element) (bool, error) {
 // Less returns true if the left StringElement
 // is less than the right StringElement.
 func (e StringElement) Less(r Element) (bool, error) {
-	return e.compare(r, func(left, right string) bool {
-		return left < right
-	})
+	return false, errors.New("operator < not defined on String")
 }
 
 // LessEq returns true if the left StringElement
 // is less than or equal to the right StringElement.
 func (e StringElement) LessEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right string) bool {
-		return left <= right
-	})
+	return false, errors.New("operator <= not defined on String")
 }
 
 // Greater returns true if the left StringElement
 // is greter than the right StringElement.
 func (e StringElement) Greater(r Element) (bool, error) {
-	return e.compare(r, func(left, right string) bool {
-		return left > right
-	})
+	return false, errors.New("operator > not defined on String")
 }
 
 // GreaterEq returns true if the left StringElement
 // is greter than or equal to the right StringElement.
 func (e StringElement) GreaterEq(r Element) (bool, error) {
-	return e.compare(r, func(left, right string) bool {
-		return left >= right
-	})
+	return false, errors.New("operator >= not defined on String")
 }
 
 // Accessor/conversion methods
@@ -2685,5 +2541,118 @@ func (e StringElement) String() string {
 
 // IsNil returns true when the underlying value is nil.
 func (e StringElement) IsNil() bool {
+	return e.v == nil
+}
+
+// NullElement has logic to apply to this type.
+type NullElement struct {
+	v interface{}
+}
+
+// NewNullElement creates a new NullElement logic wrapper
+// from the given value provided as v.
+func NewNullElement(v interface{}) *NullElement {
+	return &NullElement{
+		v: v,
+	}
+}
+
+// compare takes the left and right elements and applies the comparator function to them.
+func (e NullElement) compare(r Element, f func(left, right interface{}) bool) (bool, error) {
+	rE, ok := r.(*NullElement)
+	if !ok {
+		return false, errors.Errorf("cannot cast %v to NullElement", r)
+	}
+
+	// When their nil status isn't the same, we can't compare them.
+	// Explicit both nil should be handled elsewhere.
+	if e.IsNil() != rE.IsNil() {
+		return false, nil
+	}
+
+	lv, lok := e.v.(interface{})
+	if !lok {
+		return false, errors.Errorf("cannot assert %v is a interface{}", e.v)
+	}
+	rv, rok := rE.v.(interface{})
+	if !rok {
+		return false, errors.Errorf("cannot assert %v is a interface{}", rE.v)
+	}
+
+	return f(lv, rv), nil
+}
+
+// Comparation methods
+
+// Eq returns true if the left NullElement is equal to the right NullElement.
+// When both are nil Eq returns false because nil actualy signifies "unknown"
+// and you can't compare two things when you don't know what they are.
+func (e NullElement) Eq(r Element) (bool, error) {
+	if e.IsNil() && r.IsNil() {
+		return false, nil
+	}
+	return e.compare(r, func(left, right interface{}) bool {
+		return left == right
+	})
+}
+
+// EqStrict returns true if the left NullElement is equal to the right NullElement.
+// When both are nil EqStrict returns true.
+func (e NullElement) EqStrict(r Element) (bool, error) {
+	if e.IsNil() && r.IsNil() {
+		return true, nil
+	}
+	return e.compare(r, func(left, right interface{}) bool {
+		return left == right
+	})
+}
+
+// Neq returns true if the left NullElement
+// is not equal to the right NullElement.
+func (e NullElement) Neq(r Element) (bool, error) {
+	v, ok := e.Eq(r)
+	return !v, ok
+}
+
+// Less returns true if the left NullElement
+// is less than the right NullElement.
+func (e NullElement) Less(r Element) (bool, error) {
+	return false, errors.New("operator < not defined on Null")
+}
+
+// LessEq returns true if the left NullElement
+// is less than or equal to the right NullElement.
+func (e NullElement) LessEq(r Element) (bool, error) {
+	return false, errors.New("operator <= not defined on Null")
+}
+
+// Greater returns true if the left NullElement
+// is greter than the right NullElement.
+func (e NullElement) Greater(r Element) (bool, error) {
+	return false, errors.New("operator > not defined on Null")
+}
+
+// GreaterEq returns true if the left NullElement
+// is greter than or equal to the right NullElement.
+func (e NullElement) GreaterEq(r Element) (bool, error) {
+	return false, errors.New("operator >= not defined on Null")
+}
+
+// Accessor/conversion methods
+
+// Copy returns a copy of this NullElement.
+func (e NullElement) Copy() Element {
+	return e
+}
+
+// String prints the value of this element as a string.
+func (e NullElement) String() string {
+	return fmt.Sprintf("%v", e.v)
+}
+
+// Information methods
+
+// IsNil returns true when the underlying value is nil.
+func (e NullElement) IsNil() bool {
 	return e.v == nil
 }

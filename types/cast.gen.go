@@ -285,3 +285,12 @@ func CastToString(v interface{}) (string, bool) {
 		return "", false
 	}
 }
+
+func CastToNull(v interface{}) (interface{}, bool) {
+	switch t := v.(type) {
+	case interface{}:
+		return t, true
+	default:
+		return nil, false
+	}
+}

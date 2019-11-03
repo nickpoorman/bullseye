@@ -119,6 +119,9 @@ func NewValueIterator(column *array.Column) ValueIterator {
 	case *arrow.StringType:
 		return NewStringValueIterator(column)
 
+	case *arrow.NullType:
+		return NewNullValueIterator(column)
+
 	case *arrow.ListType:
 		return NewListValueIterator(column)
 
@@ -2724,6 +2727,136 @@ func (vr *DayTimeIntervalValueIterator) Retain() {
 
 // Release removes a reference to the DayTimeIntervalValueIterator.
 func (vr *DayTimeIntervalValueIterator) Release() {
+	refs := atomic.AddInt64(&vr.refCount, -1)
+	debug.Assert(refs >= 0, "too many releases")
+	if refs == 0 {
+		if vr.chunkIterator != nil {
+			vr.chunkIterator.Release()
+			vr.chunkIterator = nil
+		}
+
+		if vr.ref != nil {
+			vr.ref.Release()
+			vr.ref = nil
+		}
+		vr.values = nil
+	}
+}
+
+// NullValueIterator is an iterator for reading an Arrow Column value by value.
+type NullValueIterator struct {
+	refCount      int64
+	chunkIterator *NullChunkIterator
+
+	// Things we need to maintain for the iterator
+	index  int           // current value index
+	values []interface{} // current chunk values
+	ref    *array.Null   // the chunk reference
+	done   bool          // there are no more elements for this iterator
+
+	dataType arrow.DataType
+}
+
+// NewNullValueIterator creates a new NullValueIterator for reading an Arrow Column.
+func NewNullValueIterator(col *array.Column) *NullValueIterator {
+	// We need a ChunkIterator to read the chunks
+	chunkIterator := NewNullChunkIterator(col)
+
+	return &NullValueIterator{
+		refCount:      1,
+		chunkIterator: chunkIterator,
+
+		index:  0,
+		values: nil,
+
+		dataType: col.DataType(),
+	}
+}
+
+// Value will return the current value that the iterator is on and boolean value indicating if the value is actually null.
+func (vr *NullValueIterator) Value() (interface{}, bool) {
+	return vr.values[vr.index], vr.ref.IsNull(vr.index)
+}
+
+// ValuePointer will return a pointer to the current value that the iterator is on. It will return nil if the value is actually null.
+func (vr *NullValueIterator) ValuePointer() *interface{} {
+	if vr.ref.IsNull(vr.index) {
+		return nil
+	}
+	return &vr.values[vr.index]
+}
+
+// ValueInterface returns the current value as an interface{}.
+func (vr *NullValueIterator) ValueInterface() interface{} {
+	if vr.ref.IsNull(vr.index) {
+		return nil
+	}
+	return vr.values[vr.index]
+}
+
+// ValueAsJSON returns the current value as an interface{} in it's JSON representation.
+func (vr *NullValueIterator) ValueAsJSON() (interface{}, error) {
+	if vr.ref.IsNull(vr.index) {
+		return nil, nil
+	}
+	return nullAsJSON(vr.values[vr.index])
+}
+
+func (vr *NullValueIterator) DataType() arrow.DataType {
+	return vr.dataType
+}
+
+// Next moves the iterator to the next value. This will return false
+// when there are no more values.
+func (vr *NullValueIterator) Next() bool {
+	if vr.done {
+		return false
+	}
+
+	// Move the index up
+	vr.index++
+
+	// Keep moving the chunk up until we get one with data
+	for vr.values == nil || vr.index >= len(vr.values) {
+		if !vr.nextChunk() {
+			// There were no more chunks with data in them
+			vr.done = true
+			return false
+		}
+	}
+
+	return true
+}
+
+func (vr *NullValueIterator) nextChunk() bool {
+	// Advance the chunk until we get one with data in it or we are done
+	if !vr.chunkIterator.Next() {
+		// No more chunks
+		return false
+	}
+
+	// There was another chunk.
+	// We maintain the ref and the values because the ref is going to allow us to retain the memory.
+	ref := vr.chunkIterator.Chunk()
+	ref.Retain()
+
+	if vr.ref != nil {
+		vr.ref.Release()
+	}
+
+	vr.ref = ref
+	vr.values = vr.chunkIterator.ChunkValues()
+	vr.index = 0
+	return true
+}
+
+// Retain keeps a reference to the NullValueIterator.
+func (vr *NullValueIterator) Retain() {
+	atomic.AddInt64(&vr.refCount, 1)
+}
+
+// Release removes a reference to the NullValueIterator.
+func (vr *NullValueIterator) Release() {
 	refs := atomic.AddInt64(&vr.refCount, -1)
 	debug.Assert(refs >= 0, "too many releases")
 	if refs == 0 {

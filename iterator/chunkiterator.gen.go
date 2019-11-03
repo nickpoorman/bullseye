@@ -83,7 +83,11 @@ func (cr *Int64ChunkIterator) Chunk() *array.Int64 { return cr.currentChunk }
 // ChunkValues returns the underlying []int64 chunk values.
 // Keep in mind the []int64 type might not be able
 // to account for nil values. You must check for those explicitly via the chunk.
-func (cr *Int64ChunkIterator) ChunkValues() []int64 { return cr.Chunk().Int64Values() }
+func (cr *Int64ChunkIterator) ChunkValues() []int64 {
+
+	return cr.Chunk().Int64Values()
+
+}
 
 // Next moves the iterator to the next chunk. This will return false
 // when there are no more chunks.
@@ -184,7 +188,11 @@ func (cr *Uint64ChunkIterator) Chunk() *array.Uint64 { return cr.currentChunk }
 // ChunkValues returns the underlying []uint64 chunk values.
 // Keep in mind the []uint64 type might not be able
 // to account for nil values. You must check for those explicitly via the chunk.
-func (cr *Uint64ChunkIterator) ChunkValues() []uint64 { return cr.Chunk().Uint64Values() }
+func (cr *Uint64ChunkIterator) ChunkValues() []uint64 {
+
+	return cr.Chunk().Uint64Values()
+
+}
 
 // Next moves the iterator to the next chunk. This will return false
 // when there are no more chunks.
@@ -285,7 +293,11 @@ func (cr *Int32ChunkIterator) Chunk() *array.Int32 { return cr.currentChunk }
 // ChunkValues returns the underlying []int32 chunk values.
 // Keep in mind the []int32 type might not be able
 // to account for nil values. You must check for those explicitly via the chunk.
-func (cr *Int32ChunkIterator) ChunkValues() []int32 { return cr.Chunk().Int32Values() }
+func (cr *Int32ChunkIterator) ChunkValues() []int32 {
+
+	return cr.Chunk().Int32Values()
+
+}
 
 // Next moves the iterator to the next chunk. This will return false
 // when there are no more chunks.
@@ -386,7 +398,11 @@ func (cr *Uint32ChunkIterator) Chunk() *array.Uint32 { return cr.currentChunk }
 // ChunkValues returns the underlying []uint32 chunk values.
 // Keep in mind the []uint32 type might not be able
 // to account for nil values. You must check for those explicitly via the chunk.
-func (cr *Uint32ChunkIterator) ChunkValues() []uint32 { return cr.Chunk().Uint32Values() }
+func (cr *Uint32ChunkIterator) ChunkValues() []uint32 {
+
+	return cr.Chunk().Uint32Values()
+
+}
 
 // Next moves the iterator to the next chunk. This will return false
 // when there are no more chunks.
@@ -487,7 +503,11 @@ func (cr *Float64ChunkIterator) Chunk() *array.Float64 { return cr.currentChunk 
 // ChunkValues returns the underlying []float64 chunk values.
 // Keep in mind the []float64 type might not be able
 // to account for nil values. You must check for those explicitly via the chunk.
-func (cr *Float64ChunkIterator) ChunkValues() []float64 { return cr.Chunk().Float64Values() }
+func (cr *Float64ChunkIterator) ChunkValues() []float64 {
+
+	return cr.Chunk().Float64Values()
+
+}
 
 // Next moves the iterator to the next chunk. This will return false
 // when there are no more chunks.
@@ -588,7 +608,11 @@ func (cr *Float32ChunkIterator) Chunk() *array.Float32 { return cr.currentChunk 
 // ChunkValues returns the underlying []float32 chunk values.
 // Keep in mind the []float32 type might not be able
 // to account for nil values. You must check for those explicitly via the chunk.
-func (cr *Float32ChunkIterator) ChunkValues() []float32 { return cr.Chunk().Float32Values() }
+func (cr *Float32ChunkIterator) ChunkValues() []float32 {
+
+	return cr.Chunk().Float32Values()
+
+}
 
 // Next moves the iterator to the next chunk. This will return false
 // when there are no more chunks.
@@ -689,7 +713,11 @@ func (cr *Int16ChunkIterator) Chunk() *array.Int16 { return cr.currentChunk }
 // ChunkValues returns the underlying []int16 chunk values.
 // Keep in mind the []int16 type might not be able
 // to account for nil values. You must check for those explicitly via the chunk.
-func (cr *Int16ChunkIterator) ChunkValues() []int16 { return cr.Chunk().Int16Values() }
+func (cr *Int16ChunkIterator) ChunkValues() []int16 {
+
+	return cr.Chunk().Int16Values()
+
+}
 
 // Next moves the iterator to the next chunk. This will return false
 // when there are no more chunks.
@@ -790,7 +818,11 @@ func (cr *Uint16ChunkIterator) Chunk() *array.Uint16 { return cr.currentChunk }
 // ChunkValues returns the underlying []uint16 chunk values.
 // Keep in mind the []uint16 type might not be able
 // to account for nil values. You must check for those explicitly via the chunk.
-func (cr *Uint16ChunkIterator) ChunkValues() []uint16 { return cr.Chunk().Uint16Values() }
+func (cr *Uint16ChunkIterator) ChunkValues() []uint16 {
+
+	return cr.Chunk().Uint16Values()
+
+}
 
 // Next moves the iterator to the next chunk. This will return false
 // when there are no more chunks.
@@ -891,7 +923,11 @@ func (cr *Int8ChunkIterator) Chunk() *array.Int8 { return cr.currentChunk }
 // ChunkValues returns the underlying []int8 chunk values.
 // Keep in mind the []int8 type might not be able
 // to account for nil values. You must check for those explicitly via the chunk.
-func (cr *Int8ChunkIterator) ChunkValues() []int8 { return cr.Chunk().Int8Values() }
+func (cr *Int8ChunkIterator) ChunkValues() []int8 {
+
+	return cr.Chunk().Int8Values()
+
+}
 
 // Next moves the iterator to the next chunk. This will return false
 // when there are no more chunks.
@@ -992,7 +1028,11 @@ func (cr *Uint8ChunkIterator) Chunk() *array.Uint8 { return cr.currentChunk }
 // ChunkValues returns the underlying []uint8 chunk values.
 // Keep in mind the []uint8 type might not be able
 // to account for nil values. You must check for those explicitly via the chunk.
-func (cr *Uint8ChunkIterator) ChunkValues() []uint8 { return cr.Chunk().Uint8Values() }
+func (cr *Uint8ChunkIterator) ChunkValues() []uint8 {
+
+	return cr.Chunk().Uint8Values()
+
+}
 
 // Next moves the iterator to the next chunk. This will return false
 // when there are no more chunks.
@@ -1093,7 +1133,11 @@ func (cr *TimestampChunkIterator) Chunk() *array.Timestamp { return cr.currentCh
 // ChunkValues returns the underlying []arrow.Timestamp chunk values.
 // Keep in mind the []arrow.Timestamp type might not be able
 // to account for nil values. You must check for those explicitly via the chunk.
-func (cr *TimestampChunkIterator) ChunkValues() []arrow.Timestamp { return cr.Chunk().TimestampValues() }
+func (cr *TimestampChunkIterator) ChunkValues() []arrow.Timestamp {
+
+	return cr.Chunk().TimestampValues()
+
+}
 
 // Next moves the iterator to the next chunk. This will return false
 // when there are no more chunks.
@@ -1194,7 +1238,11 @@ func (cr *Time32ChunkIterator) Chunk() *array.Time32 { return cr.currentChunk }
 // ChunkValues returns the underlying []arrow.Time32 chunk values.
 // Keep in mind the []arrow.Time32 type might not be able
 // to account for nil values. You must check for those explicitly via the chunk.
-func (cr *Time32ChunkIterator) ChunkValues() []arrow.Time32 { return cr.Chunk().Time32Values() }
+func (cr *Time32ChunkIterator) ChunkValues() []arrow.Time32 {
+
+	return cr.Chunk().Time32Values()
+
+}
 
 // Next moves the iterator to the next chunk. This will return false
 // when there are no more chunks.
@@ -1295,7 +1343,11 @@ func (cr *Time64ChunkIterator) Chunk() *array.Time64 { return cr.currentChunk }
 // ChunkValues returns the underlying []arrow.Time64 chunk values.
 // Keep in mind the []arrow.Time64 type might not be able
 // to account for nil values. You must check for those explicitly via the chunk.
-func (cr *Time64ChunkIterator) ChunkValues() []arrow.Time64 { return cr.Chunk().Time64Values() }
+func (cr *Time64ChunkIterator) ChunkValues() []arrow.Time64 {
+
+	return cr.Chunk().Time64Values()
+
+}
 
 // Next moves the iterator to the next chunk. This will return false
 // when there are no more chunks.
@@ -1396,7 +1448,11 @@ func (cr *Date32ChunkIterator) Chunk() *array.Date32 { return cr.currentChunk }
 // ChunkValues returns the underlying []arrow.Date32 chunk values.
 // Keep in mind the []arrow.Date32 type might not be able
 // to account for nil values. You must check for those explicitly via the chunk.
-func (cr *Date32ChunkIterator) ChunkValues() []arrow.Date32 { return cr.Chunk().Date32Values() }
+func (cr *Date32ChunkIterator) ChunkValues() []arrow.Date32 {
+
+	return cr.Chunk().Date32Values()
+
+}
 
 // Next moves the iterator to the next chunk. This will return false
 // when there are no more chunks.
@@ -1497,7 +1553,11 @@ func (cr *Date64ChunkIterator) Chunk() *array.Date64 { return cr.currentChunk }
 // ChunkValues returns the underlying []arrow.Date64 chunk values.
 // Keep in mind the []arrow.Date64 type might not be able
 // to account for nil values. You must check for those explicitly via the chunk.
-func (cr *Date64ChunkIterator) ChunkValues() []arrow.Date64 { return cr.Chunk().Date64Values() }
+func (cr *Date64ChunkIterator) ChunkValues() []arrow.Date64 {
+
+	return cr.Chunk().Date64Values()
+
+}
 
 // Next moves the iterator to the next chunk. This will return false
 // when there are no more chunks.
@@ -1598,7 +1658,11 @@ func (cr *DurationChunkIterator) Chunk() *array.Duration { return cr.currentChun
 // ChunkValues returns the underlying []arrow.Duration chunk values.
 // Keep in mind the []arrow.Duration type might not be able
 // to account for nil values. You must check for those explicitly via the chunk.
-func (cr *DurationChunkIterator) ChunkValues() []arrow.Duration { return cr.Chunk().DurationValues() }
+func (cr *DurationChunkIterator) ChunkValues() []arrow.Duration {
+
+	return cr.Chunk().DurationValues()
+
+}
 
 // Next moves the iterator to the next chunk. This will return false
 // when there are no more chunks.
@@ -1700,7 +1764,9 @@ func (cr *MonthIntervalChunkIterator) Chunk() *array.MonthInterval { return cr.c
 // Keep in mind the []arrow.MonthInterval type might not be able
 // to account for nil values. You must check for those explicitly via the chunk.
 func (cr *MonthIntervalChunkIterator) ChunkValues() []arrow.MonthInterval {
+
 	return cr.Chunk().MonthIntervalValues()
+
 }
 
 // Next moves the iterator to the next chunk. This will return false
@@ -1802,7 +1868,11 @@ func (cr *Float16ChunkIterator) Chunk() *array.Float16 { return cr.currentChunk 
 // ChunkValues returns the underlying []float16.Num chunk values.
 // Keep in mind the []float16.Num type might not be able
 // to account for nil values. You must check for those explicitly via the chunk.
-func (cr *Float16ChunkIterator) ChunkValues() []float16.Num { return cr.Chunk().Values() }
+func (cr *Float16ChunkIterator) ChunkValues() []float16.Num {
+
+	return cr.Chunk().Values()
+
+}
 
 // Next moves the iterator to the next chunk. This will return false
 // when there are no more chunks.
@@ -1903,7 +1973,11 @@ func (cr *Decimal128ChunkIterator) Chunk() *array.Decimal128 { return cr.current
 // ChunkValues returns the underlying []decimal128.Num chunk values.
 // Keep in mind the []decimal128.Num type might not be able
 // to account for nil values. You must check for those explicitly via the chunk.
-func (cr *Decimal128ChunkIterator) ChunkValues() []decimal128.Num { return cr.Chunk().Values() }
+func (cr *Decimal128ChunkIterator) ChunkValues() []decimal128.Num {
+
+	return cr.Chunk().Values()
+
+}
 
 // Next moves the iterator to the next chunk. This will return false
 // when there are no more chunks.
@@ -2005,7 +2079,9 @@ func (cr *DayTimeIntervalChunkIterator) Chunk() *array.DayTimeInterval { return 
 // Keep in mind the []arrow.DayTimeInterval type might not be able
 // to account for nil values. You must check for those explicitly via the chunk.
 func (cr *DayTimeIntervalChunkIterator) ChunkValues() []arrow.DayTimeInterval {
+
 	return cr.Chunk().DayTimeIntervalValues()
+
 }
 
 // Next moves the iterator to the next chunk. This will return false
@@ -2033,6 +2109,111 @@ func (cr *DayTimeIntervalChunkIterator) Retain() {
 
 // Release removes a reference to the DayTimeIntervalChunkIterator
 func (cr *DayTimeIntervalChunkIterator) Release() {
+	debug.Assert(atomic.LoadInt64(&cr.refCount) > 0, "too many releases")
+	ref := atomic.AddInt64(&cr.refCount, -1)
+	if ref == 0 {
+		cr.col.Release()
+		for i := range cr.chunks {
+			cr.chunks[i].Release()
+		}
+		if cr.currentChunk != nil {
+			cr.currentChunk.Release()
+			cr.currentChunk = nil
+		}
+		cr.col = nil
+		cr.chunks = nil
+		cr.dtype = nil
+	}
+}
+
+// NullChunkIterator is an iterator for reading an Arrow Column value by value.
+type NullChunkIterator struct {
+	refCount int64
+	col      *array.Column
+
+	// Things Chunked maintains. We're going to maintain it ourselves.
+	chunks []*array.Null // cache the chunks on this iterator
+	length int64         // this isn't set right on Chunked so we won't rely on it there. Instead we keep the correct value here.
+	nulls  int64
+	dtype  arrow.DataType
+
+	// Things we need to maintain for the iterator
+	currentIndex int         // current chunk
+	currentChunk *array.Null // current chunk
+}
+
+// NewNullChunkIterator creates a new NullChunkIterator for reading an Arrow Column.
+func NewNullChunkIterator(col *array.Column) *NullChunkIterator {
+	col.Retain()
+
+	// Chunked is not using the correct type to keep track of length so we have to recalculate it.
+	columnChunks := col.Data().Chunks()
+	chunks := make([]*array.Null, len(columnChunks))
+	var length int64
+	var nulls int64
+
+	for i, chunk := range columnChunks {
+		// Keep our own refs to chunks
+		chunks[i] = chunk.(*array.Null)
+		// Retain the chunk
+		chunks[i].Retain()
+
+		// Keep our own counters instead of Chunked's
+		length += int64(chunk.Len())
+		nulls += int64(chunk.NullN())
+	}
+
+	return &NullChunkIterator{
+		refCount: 1,
+		col:      col,
+
+		chunks: chunks,
+		length: length,
+		nulls:  nulls,
+		dtype:  col.DataType(),
+
+		currentIndex: 0,
+		currentChunk: nil,
+	}
+}
+
+// Chunk will return the current chunk that the iterator is on.
+func (cr *NullChunkIterator) Chunk() *array.Null { return cr.currentChunk }
+
+// ChunkValues returns the underlying []interface{} chunk values.
+// Keep in mind the []interface{} type might not be able
+// to account for nil values. You must check for those explicitly via the chunk.
+func (cr *NullChunkIterator) ChunkValues() []interface{} {
+
+	return make([]interface{}, cr.Chunk().Len())
+
+}
+
+// Next moves the iterator to the next chunk. This will return false
+// when there are no more chunks.
+func (cr *NullChunkIterator) Next() bool {
+	if cr.currentIndex >= len(cr.chunks) {
+		return false
+	}
+
+	if cr.currentChunk != nil {
+		cr.currentChunk.Release()
+	}
+
+	cr.currentChunk = cr.chunks[cr.currentIndex]
+	cr.currentChunk.Retain()
+	cr.currentIndex++
+
+	return true
+}
+
+// Retain keeps a reference to the NullChunkIterator
+func (cr *NullChunkIterator) Retain() {
+	atomic.AddInt64(&cr.refCount, 1)
+}
+
+// Release removes a reference to the NullChunkIterator
+func (cr *NullChunkIterator) Release() {
 	debug.Assert(atomic.LoadInt64(&cr.refCount) > 0, "too many releases")
 	ref := atomic.AddInt64(&cr.refCount, -1)
 	if ref == 0 {

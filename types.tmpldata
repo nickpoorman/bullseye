@@ -537,6 +537,7 @@
     "name": "utf8",
     "Type": "string",
     "Default": "\"\"",
+    // TODO(nickpoorman): Add Compare here...
     "TestTypes": [
       {
         "DataType": "arrow.BinaryTypes.String",
@@ -548,5 +549,18 @@
       "valueiterator",
       "chunkiterator"
     ]
+  },
+  {
+    "Name": "Null",
+    "name": "null",
+    "Type": "Null",
+    "QualifiedType": "interface{}",
+    "InternalType": "interface{}",
+    "Default": "nil",
+    "Compare": {
+      "Eq": "left == right"
+    },
+    "TestTypes": [],
+    "ExcludeGenerate": []
   }
 ]
